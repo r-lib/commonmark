@@ -1,0 +1,17 @@
+PKG_CPPFLAGS= -Icmark
+
+LIBCMARK=	cmark/blocks.o cmark/houdini_html_u.o cmark/houdini_html_e.o cmark/inlines.o \
+					cmark/man.o cmark/scanners.o cmark/buffer.o cmark/commonmark.o cmark/xml.o \
+					cmark/iterator.o cmark/node.o cmark/utf8.o cmark/cmark.o cmark/cmark_ctype.o \
+					cmark/html.o cmark/main.o cmark/references.o cmark/houdini_href_e.o
+
+PKG_LIBS= -L. -lcmark
+
+all: libcmark.a
+
+clean:
+	rm -f $(LIBCMARK)
+	rm -f *.o *.a *.so
+
+libcmark.a: $(LIBCMARK)
+	$(AR) rcs libcmark.a $(LIBCMARK)

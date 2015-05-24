@@ -1,0 +1,14 @@
+Package: commonmark
+Type: Package
+Title: Bindings to John MacFarlane's Reference Implementation of CommonMark
+Version: 0.1
+Date: 2015-05-24
+Authors@R: c(
+    person("Jeroen", "Ooms", ,"jeroen.ooms@stat.ucla.edu", role = c("aut", "cre")),
+    person("John MacFarlane", role = "cph", comment = "Author of cmark")
+  )
+URL: https://github.com/jeroenooms/commonmark https://github.com/jgm/cmark
+Description: Bindings to John MacFarlane's 'cmark': the C reference implementation
+    of CommonMark, a rationalized version of Markdown syntax with a spec.
+License: MIT + file LICENSE
+Suggests: curl
