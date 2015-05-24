@@ -4,8 +4,10 @@
 #' reference implementation.
 #'
 #' @useDynLib commonmark R_markdown_html
+#' @aliases commonmark markdown
 #' @export
-#' @rdname markdown
+#' @rdname commonmark
+#' @name commonmark
 #' @param text markdown text
 #' @param options integer with options
 #' @param width width of the commonmark output
@@ -21,14 +23,14 @@ markdown_html <- function(text, options = 8L){
 
 #' @useDynLib commonmark R_markdown_xml
 #' @export
-#' @rdname markdown
+#' @rdname commonmark
 markdown_xml <- function(text, options = 8L){
   .Call(R_markdown_xml, paste(text, collapse="\n"), options)
 }
 
 #' @useDynLib commonmark R_markdown_man
 #' @export
-#' @rdname markdown
+#' @rdname commonmark
 markdown_man <- function(text, options = 8L){
   .Call(R_markdown_man, paste(text, collapse="\n"), options)
 }
@@ -36,7 +38,7 @@ markdown_man <- function(text, options = 8L){
 
 #' @useDynLib commonmark R_markdown_cm
 #' @export
-#' @rdname markdown
+#' @rdname commonmark
 markdown_cm <- function(text, options = 8L, width = 100L){
   .Call(R_markdown_cm, paste(text, collapse="\n"), options, width)
 }
