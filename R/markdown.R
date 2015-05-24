@@ -24,7 +24,7 @@ markdown_html <- function(text, options = 8L){
 #' @useDynLib commonmark R_markdown_xml
 #' @export
 #' @rdname commonmark
-markdown_xml <- function(text, options = 8L){
+markdown_xml <- function(text, options = 0L){
   .Call(R_markdown_xml, paste(text, collapse="\n"), options)
 }
 

@@ -11,7 +11,7 @@
 \usage{
 markdown_html(text, options = 8L)
 
-markdown_xml(text, options = 8L)
+markdown_xml(text, options = 0L)
 
 markdown_man(text, options = 8L)
 
