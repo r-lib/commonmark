@@ -9,7 +9,7 @@ Authors@R: c(
   )
 URL: https://github.com/jeroenooms/commonmark https://github.com/jgm/cmark
 BugReports: http://github.com/jeroenooms/commonmark/issues
-Description: The CommonMark spec is a rationalized version of Markdown syntax.
+Description: The 'CommonMark' spec is a rationalized version of Markdown syntax.
     This package converts markdown text to various formats including a parse
     tree in XML format.
 License: BSD_2_clause + file LICENSE
