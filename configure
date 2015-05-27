@@ -1,0 +1,7 @@
+# Fix for solaris
+if [ $(uname) = "SunOS" ]; then
+  echo "Patching for Solaris"
+  perl -pi -w -e 's/#define HAVE___BUILTIN_EXPECT//g;' src/cmark/config.h
+fi
+
+exit 0
