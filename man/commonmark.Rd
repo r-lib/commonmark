@@ -9,34 +9,39 @@
 \alias{markdown_xml}
 \title{Parse and render markdown text}
 \usage{
-markdown_html(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE,
-  normalize = FALSE)
+markdown_html(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
+  sourcepos = FALSE)
 
-markdown_xml(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE,
-  normalize = FALSE)
+markdown_xml(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
+  sourcepos = FALSE)
 
-markdown_man(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE,
-  normalize = FALSE)
+markdown_man(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE)
 
-markdown_commonmark(text, sourcepos = FALSE, hardbreaks = FALSE,
-  smart = FALSE, normalize = FALSE, width = 0)
+markdown_commonmark(text, hardbreaks = FALSE, smart = FALSE,
+  normalize = FALSE, width = 0)
 }
 \arguments{
 \item{text}{Markdown text}
 
-\item{sourcepos}{Include source position attribute}
+\item{hardbreaks}{Treat newlines as hard line breaks. If this option is specified, hard wrapping is disabled
+regardless of the value given with \code{width}.}
 
-\item{hardbreaks}{Treat newlines as hard line breaks}
+\item{smart}{Use smart punctuation. See details.}
 
-\item{smart}{Use smart punctuation}
+\item{normalize}{Consolidate adjacent text nodes.}
 
-\item{normalize}{Consolidate adjacent text nodes}
+\item{sourcepos}{Include source position attribute in output.}
 
-\item{width}{Specify wrap width (default 0 = nowrap)}
+\item{width}{Specify wrap width (default 0 = nowrap).}
 }
 \description{
 Converts markdown text to several formats using John MacFarlane's \href{https://github.com/jgm/cmark}{cmark}
 reference implementation. Output in HTML, groff man, CommonMark, and a custom XML format is supported.
+}
+\details{
+When smart punctuation is enabled, straight double and single quotes will be rendered as curly quotes,
+depending on their position. Moreover \code{--} will be rendered as an en-dash, \code{---} will be
+rendered as an em-dash, and \code{...} will be rendered as ellipses.
 }
 \examples{
 library(curl)
