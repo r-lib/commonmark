@@ -7,7 +7,7 @@ LIBCMARK=	cmark/blocks.o cmark/houdini_html_u.o cmark/houdini_html_e.o cmark/inl
 
 PKG_LIBS= -L. -lcmark
 
-all: libcmark.a
+$(SHLIB): libcmark.a
 
 clean:
 	rm -f $(LIBCMARK)
