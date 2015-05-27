@@ -60,6 +60,8 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   const char *input = translateCharUTF8(STRING_ELT(text, 0));
   cmark_node *doc = cmark_parse_document(input, strlen(input), options);
   char *output = print_document(doc, asInteger(format), options, asInteger(width));
+
+  /* cmark always returns UTF8 output */
   SEXP res = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(res, 0, Rf_mkCharCE(output, CE_UTF8));
   UNPROTECT(1);
