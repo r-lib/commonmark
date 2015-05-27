@@ -8,7 +8,7 @@ Authors@R: c(
     person("John MacFarlane", role = "cph", comment = "Author of cmark")
   )
 URL: https://github.com/jeroenooms/commonmark https://github.com/jgm/cmark
-Description: CommonMark is a rationalized version of Markdown syntax with a spec.
+Description: The CommonMark spec is a rationalized version of Markdown syntax.
     This package converts markdown text to various formats including a parsing
     tree representaion in xml format.
 License: MIT + file LICENSE
