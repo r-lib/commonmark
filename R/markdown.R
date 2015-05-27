@@ -1,44 +1,43 @@
-#' Convert markdown to HTML
+#' Parse and render markdown text
 #'
-#' Convert markdown text to HTML using John MacFarlane's \href{https://github.com/jgm/cmark}{cmark}
-#' reference implementation.
+#' Converts markdown text to several formats using John MacFarlane's \href{https://github.com/jgm/cmark}{cmark}
+#' reference implementation. Output in HTML, groff man, CommonMark, and a custom XML format is supported.
 #'
-#' @useDynLib commonmark R_markdown_html
+#' @useDynLib commonmark R_render_markdown
 #' @aliases commonmark markdown
 #' @export
 #' @rdname commonmark
 #' @name commonmark
-#' @param text markdown text
-#' @param options integer with options
-#' @param width width of the commonmark output
+#' @param text Markdown text
+#' @param sourcepos Include source position attribute
+#' @param hardbreaks Treat newlines as hard line breaks
+#' @param smart Use smart punctuation
+#' @param normalize Consolidate adjacent text nodes
+#' @param width Specify wrap width (default 0 = nowrap)
 #' @examples library(curl)
 #' md <- readLines(curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
 #' html <- markdown_html(md)
 #' xml <- markdown_xml(md)
 #' man <- markdown_man(md)
-#' cm <- markdown_cm(md)
-markdown_html <- function(text, options = 8L){
-  .Call(R_markdown_html, paste(text, collapse="\n"), options)
+#' cm <- markdown_commonmark(md)
+markdown_html <- function(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE, normalize = FALSE){
+  .Call(R_render_markdown, paste(text, collapse="\n"), 1L, sourcepos, hardbreaks, smart, normalize, 0L)
 }
 
-#' @useDynLib commonmark R_markdown_xml
 #' @export
 #' @rdname commonmark
-markdown_xml <- function(text, options = 0L){
-  .Call(R_markdown_xml, paste(text, collapse="\n"), options)
+markdown_xml <- function(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE, normalize = FALSE){
+  .Call(R_render_markdown, paste(text, collapse="\n"), 2L, sourcepos, hardbreaks, smart, normalize, 0L)
 }
 
-#' @useDynLib commonmark R_markdown_man
 #' @export
 #' @rdname commonmark
-markdown_man <- function(text, options = 8L){
-  .Call(R_markdown_man, paste(text, collapse="\n"), options)
+markdown_man <- function(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE, normalize = FALSE){
+  .Call(R_render_markdown, paste(text, collapse="\n"), 3L, sourcepos, hardbreaks, smart, normalize, 0L)
 }
 
-
-#' @useDynLib commonmark R_markdown_cm
 #' @export
 #' @rdname commonmark
-markdown_cm <- function(text, options = 8L, width = 100L){
-  .Call(R_markdown_cm, paste(text, collapse="\n"), options, width)
+markdown_commonmark <- function(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0){
+  .Call(R_render_markdown, paste(text, collapse="\n"), 4L, sourcepos, hardbreaks, smart, normalize, as.integer(width))
 }

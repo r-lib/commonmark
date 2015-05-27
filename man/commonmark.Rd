@@ -3,30 +3,40 @@
 \name{commonmark}
 \alias{commonmark}
 \alias{markdown}
-\alias{markdown_cm}
+\alias{markdown_commonmark}
 \alias{markdown_html}
 \alias{markdown_man}
 \alias{markdown_xml}
-\title{Convert markdown to HTML}
+\title{Parse and render markdown text}
 \usage{
-markdown_html(text, options = 8L)
+markdown_html(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE,
+  normalize = FALSE)
 
-markdown_xml(text, options = 0L)
+markdown_xml(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE,
+  normalize = FALSE)
 
-markdown_man(text, options = 8L)
+markdown_man(text, sourcepos = FALSE, hardbreaks = FALSE, smart = FALSE,
+  normalize = FALSE)
 
-markdown_cm(text, options = 8L, width = 100L)
+markdown_commonmark(text, sourcepos = FALSE, hardbreaks = FALSE,
+  smart = FALSE, normalize = FALSE, width = 0)
 }
 \arguments{
-\item{text}{markdown text}
+\item{text}{Markdown text}
 
-\item{options}{integer with options}
+\item{sourcepos}{Include source position attribute}
 
-\item{width}{width of the commonmark output}
+\item{hardbreaks}{Treat newlines as hard line breaks}
+
+\item{smart}{Use smart punctuation}
+
+\item{normalize}{Consolidate adjacent text nodes}
+
+\item{width}{Specify wrap width (default 0 = nowrap)}
 }
 \description{
-Convert markdown text to HTML using John MacFarlane's \href{https://github.com/jgm/cmark}{cmark}
-reference implementation.
+Converts markdown text to several formats using John MacFarlane's \href{https://github.com/jgm/cmark}{cmark}
+reference implementation. Output in HTML, groff man, CommonMark, and a custom XML format is supported.
 }
 \examples{
 library(curl)
@@ -34,6 +44,6 @@ md <- readLines(curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.
 html <- markdown_html(md)
 xml <- markdown_xml(md)
 man <- markdown_man(md)
-cm <- markdown_cm(md)
+cm <- markdown_commonmark(md)
 }
 
