@@ -1,6 +1,6 @@
 Package: commonmark
 Type: Package
-Title: Bindings to 'Cmark': John MacFarlane's Reference Implementation of CommonMark
+Title: Bindings to John MacFarlane's Reference Implementation of CommonMark
 Version: 0.1.99
 Date: 2015-05-24
 Authors@R: c(
