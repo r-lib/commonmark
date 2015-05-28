@@ -1,4 +1,4 @@
-PKG_CPPFLAGS= -Icmark
+PKG_CPPFLAGS= -Icmark -I.
 
 LIBCMARK= cmark/blocks.o cmark/houdini_html_u.o cmark/houdini_html_e.o cmark/inlines.o \
 	cmark/man.o cmark/scanners.o cmark/buffer.o cmark/commonmark.o cmark/xml.o \
