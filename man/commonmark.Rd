@@ -44,8 +44,7 @@ depending on their position. Moreover \code{--} will be rendered as an en-dash, 
 rendered as an em-dash, and \code{...} will be rendered as ellipses.
 }
 \examples{
-library(curl)
-md <- readLines(curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
+md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
 html <- markdown_html(md)
 xml <- markdown_xml(md)
 man <- markdown_man(md)
