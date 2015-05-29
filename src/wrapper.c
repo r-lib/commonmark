@@ -57,7 +57,7 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   options += asLogical(normalize) * CMARK_OPT_NORMALIZE;
 
   /* render output */
-  const char *input = translateCharUTF8(STRING_ELT(text, 0));
+  const char *input = CHAR(STRING_ELT(text, 0));
   cmark_node *doc = cmark_parse_document(input, strlen(input), options);
   char *output = print_document(doc, asInteger(format), options, asInteger(width));
 

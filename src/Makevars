@@ -11,7 +11,7 @@ $(SHLIB): libcmark.a
 
 clean:
 	rm -f $(LIBCMARK)
-	rm -f *.o *.a *.so
+	rm -f *.o *.a *.so *.dll
 
 libcmark.a: $(LIBCMARK)
 	$(AR) rcs libcmark.a $(LIBCMARK)

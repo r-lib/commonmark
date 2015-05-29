@@ -26,23 +26,27 @@
 #' man <- markdown_man(md)
 #' cm <- markdown_commonmark(md)
 markdown_html <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE){
-  .Call(R_render_markdown, paste(text, collapse="\n"), 1L, sourcepos, hardbreaks, smart, normalize, 0L)
+  text <- enc2utf8(paste(text, collapse="\n"))
+  .Call(R_render_markdown, text, 1L, sourcepos, hardbreaks, smart, normalize, 0L)
 }
 
 #' @export
 #' @rdname commonmark
 markdown_xml <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE){
-  .Call(R_render_markdown, paste(text, collapse="\n"), 2L, sourcepos, hardbreaks, smart, normalize, 0L)
+  text <- enc2utf8(paste(text, collapse="\n"))
+  .Call(R_render_markdown, text, 2L, sourcepos, hardbreaks, smart, normalize, 0L)
 }
 
 #' @export
 #' @rdname commonmark
 markdown_man <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE){
-  .Call(R_render_markdown, paste(text, collapse="\n"), 3L, FALSE, hardbreaks, smart, normalize, 0L)
+  text <- enc2utf8(paste(text, collapse="\n"))
+  .Call(R_render_markdown, text, 3L, FALSE, hardbreaks, smart, normalize, 0L)
 }
 
 #' @export
 #' @rdname commonmark
 markdown_commonmark <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0){
-  .Call(R_render_markdown, paste(text, collapse="\n"), 4L, FALSE, hardbreaks, smart, normalize, as.integer(width))
+  text <- enc2utf8(paste(text, collapse="\n"))
+  .Call(R_render_markdown, text, 4L, FALSE, hardbreaks, smart, normalize, as.integer(width))
 }
