@@ -1,8 +1,8 @@
 Package: commonmark
 Type: Package
 Title: Bindings to the 'CommonMark' Reference Implementation
-Version: 0.2.9000
-Date: 2015-05-27
+Version: 0.3
+Date: 2015-05-30
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen.ooms@stat.ucla.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark")
