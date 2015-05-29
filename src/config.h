@@ -10,6 +10,10 @@
 #define HAVE___BUILTIN_EXPECT
 #endif
 
+#ifndef _WIN32
+#define HAVE_C99_SNPRINTF
+#endif
+
 #define HAVE___ATTRIBUTE__
 
 #ifdef HAVE___ATTRIBUTE__
