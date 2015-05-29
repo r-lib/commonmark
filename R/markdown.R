@@ -19,8 +19,7 @@
 #' @param smart Use smart punctuation. See details.
 #' @param normalize Consolidate adjacent text nodes.
 #' @param width Specify wrap width (default 0 = nowrap).
-#' @examples library(curl)
-#' md <- readLines(curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
+#' @examples md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
 #' html <- markdown_html(md)
 #' xml <- markdown_xml(md)
 #' man <- markdown_man(md)
