@@ -65,8 +65,9 @@ static inline const char *cmark_chunk_to_cstr(cmark_chunk *c)
 		return (char *)c->data;
 	}
 	str = (unsigned char *)malloc(c->len + 1);
-	if(c->data != NULL) {
-		memcpy(str, c->data, c->len);
+	if(str != NULL) {
+	  if(c->data)
+		  memcpy(str, c->data, c->len);
 		str[c->len] = 0;
 	}
 	c->data  = str;
