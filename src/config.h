@@ -10,10 +10,6 @@
 #define HAVE___BUILTIN_EXPECT
 #endif
 
-#ifndef _WIN32
-#define HAVE_C99_SNPRINTF
-#endif
-
 #define HAVE___ATTRIBUTE__
 
 #ifdef HAVE___ATTRIBUTE__
@@ -22,8 +18,10 @@
   #define CMARK_ATTRIBUTE(list)
 #endif
 
-#define HAVE_VA_COPY
-
-#ifndef HAVE_VA_COPY
-  #define va_copy(dest, src) ((dest) = (src))
+#ifndef CMARK_INLINE
+  #if defined(_MSC_VER) && !defined(__cplusplus)
+    #define CMARK_INLINE __inline
+  #else
+    #define CMARK_INLINE inline
+  #endif
 #endif

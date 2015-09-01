@@ -12,7 +12,8 @@ typedef enum {
   FORMAT_HTML,
   FORMAT_XML,
   FORMAT_MAN,
-  FORMAT_COMMONMARK
+  FORMAT_COMMONMARK,
+  FORMAT_LATEX
 } writer_format;
 
 char* print_document(cmark_node *document, writer_format writer, int options, int width){
@@ -22,9 +23,12 @@ char* print_document(cmark_node *document, writer_format writer, int options, in
   case FORMAT_XML:
     return cmark_render_xml(document, options);
   case FORMAT_MAN:
-    return cmark_render_man(document, options);
+    return cmark_render_man(document, options, width);
   case FORMAT_COMMONMARK:
     return cmark_render_commonmark(document, options, width);
+  case FORMAT_LATEX:
+    return cmark_render_latex(document, options, width);
+    break;
   default:
     Rf_error("Unknown output format %d", writer);
   }
