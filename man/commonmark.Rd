@@ -5,6 +5,7 @@
 \alias{markdown}
 \alias{markdown_commonmark}
 \alias{markdown_html}
+\alias{markdown_latex}
 \alias{markdown_man}
 \alias{markdown_xml}
 \title{Parse and render markdown text}
@@ -15,10 +16,14 @@ markdown_html(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
 markdown_xml(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
   sourcepos = FALSE)
 
-markdown_man(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE)
+markdown_man(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
+  width = 0)
 
 markdown_commonmark(text, hardbreaks = FALSE, smart = FALSE,
   normalize = FALSE, width = 0)
+
+markdown_latex(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
+  width = 0)
 }
 \arguments{
 \item{text}{Markdown text}

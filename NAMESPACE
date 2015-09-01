@@ -2,6 +2,7 @@
 
 export(markdown_commonmark)
 export(markdown_html)
+export(markdown_latex)
 export(markdown_man)
 export(markdown_xml)
 useDynLib(commonmark,R_render_markdown)

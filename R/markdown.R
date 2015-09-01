@@ -38,9 +38,9 @@ markdown_xml <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FA
 
 #' @export
 #' @rdname commonmark
-markdown_man <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE){
+markdown_man <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0){
   text <- enc2utf8(paste(text, collapse="\n"))
-  .Call(R_render_markdown, text, 3L, FALSE, hardbreaks, smart, normalize, 0L)
+  .Call(R_render_markdown, text, 3L, FALSE, hardbreaks, smart, normalize, as.integer(width))
 }
 
 #' @export
@@ -48,4 +48,11 @@ markdown_man <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FA
 markdown_commonmark <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0){
   text <- enc2utf8(paste(text, collapse="\n"))
   .Call(R_render_markdown, text, 4L, FALSE, hardbreaks, smart, normalize, as.integer(width))
+}
+
+#' @export
+#' @rdname commonmark
+markdown_latex <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0){
+  text <- enc2utf8(paste(text, collapse="\n"))
+  .Call(R_render_markdown, text, 5L, FALSE, hardbreaks, smart, normalize, as.integer(width))
 }
