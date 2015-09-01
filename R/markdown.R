@@ -23,6 +23,7 @@
 #' html <- markdown_html(md)
 #' xml <- markdown_xml(md)
 #' man <- markdown_man(md)
+#' tex <- markdown_latex(md)
 #' cm <- markdown_commonmark(md)
 markdown_html <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))

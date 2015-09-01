@@ -53,6 +53,7 @@ md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master
 html <- markdown_html(md)
 xml <- markdown_xml(md)
 man <- markdown_man(md)
+tex <- markdown_latex(md)
 cm <- markdown_commonmark(md)
 }
 
