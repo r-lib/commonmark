@@ -50,10 +50,13 @@ static int S_render_node(cmark_node *node, cmark_event_type ev_type,
     literal = false;
 
     switch (node->type) {
+    case CMARK_NODE_DOCUMENT:
+      cmark_strbuf_puts(xml, " xmlns=\"http://commonmark.org/xml/1.0\"");
+      break;
     case CMARK_NODE_TEXT:
     case CMARK_NODE_CODE:
-    case CMARK_NODE_HTML:
-    case CMARK_NODE_INLINE_HTML:
+    case CMARK_NODE_HTML_BLOCK:
+    case CMARK_NODE_HTML_INLINE:
       cmark_strbuf_puts(xml, ">");
       escape_xml(xml, node->as.literal.data, node->as.literal.len);
       cmark_strbuf_puts(xml, "</");
@@ -83,8 +86,8 @@ static int S_render_node(cmark_node *node, cmark_event_type ev_type,
               (cmark_node_get_list_tight(node) ? "true" : "false"));
       cmark_strbuf_puts(xml, buffer);
       break;
-    case CMARK_NODE_HEADER:
-      sprintf(buffer, " level=\"%d\"", node->as.header.level);
+    case CMARK_NODE_HEADING:
+      sprintf(buffer, " level=\"%d\"", node->as.heading.level);
       cmark_strbuf_puts(xml, buffer);
       break;
     case CMARK_NODE_CODE_BLOCK:
@@ -98,6 +101,17 @@ static int S_render_node(cmark_node *node, cmark_event_type ev_type,
       cmark_strbuf_puts(xml, "</");
       cmark_strbuf_puts(xml, cmark_node_get_type_string(node));
       literal = true;
+      break;
+    case CMARK_NODE_CUSTOM_BLOCK:
+    case CMARK_NODE_CUSTOM_INLINE:
+      cmark_strbuf_puts(xml, " on_enter=\"");
+      escape_xml(xml, node->as.custom.on_enter.data,
+                 node->as.custom.on_enter.len);
+      cmark_strbuf_putc(xml, '"');
+      cmark_strbuf_puts(xml, " on_exit=\"");
+      escape_xml(xml, node->as.custom.on_exit.data,
+                 node->as.custom.on_exit.len);
+      cmark_strbuf_putc(xml, '"');
       break;
     case CMARK_NODE_LINK:
     case CMARK_NODE_IMAGE:
@@ -140,7 +154,7 @@ char *cmark_render_xml(cmark_node *root, int options) {
 
   cmark_strbuf_puts(state.xml, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
   cmark_strbuf_puts(state.xml,
-                    "<!DOCTYPE CommonMark SYSTEM \"CommonMark.dtd\">\n");
+                    "<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n");
   while ((ev_type = cmark_iter_next(iter)) != CMARK_EVENT_DONE) {
     cur = cmark_iter_get_node(iter);
     S_render_node(cur, ev_type, &state, options);
