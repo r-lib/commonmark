@@ -6,7 +6,7 @@ Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen.ooms@stat.ucla.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark")
   )
-URL: https://github.com/jeroenooms/commonmark https://github.com/jgm/cmark
+URL: https://github.com/jeroenooms/commonmark http://commonmark.org/help/
 BugReports: http://github.com/jeroenooms/commonmark/issues
 Description: The CommonMark specification defines a rationalized version of markdown
     syntax. This package uses the libcmark reference implementation for converting
