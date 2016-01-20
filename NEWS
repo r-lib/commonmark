@@ -1,6 +1,9 @@
+0.7
+ - Update libcmark to 0.24.1
+
 0.6
- - Updated libcmark to 0.23
+ - Update libcmark to 0.23
 
 0.5
- - Updated libcmark to 0.22
+ - Update libcmark to 0.22
  - Added markdown_latex() function
