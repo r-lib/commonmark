@@ -20,7 +20,7 @@ extern "C" {
  */
 
 /** Convert 'text' (assumed to be a UTF-8 encoded string with length
- * 'len' from CommonMark Markdown to HTML, returning a null-terminated,
+ * 'len') from CommonMark Markdown to HTML, returning a null-terminated,
  * UTF-8-encoded string.
  */
 CMARK_EXPORT
@@ -96,7 +96,7 @@ typedef struct cmark_iter cmark_iter;
  */
 CMARK_EXPORT cmark_node *cmark_node_new(cmark_node_type type);
 
-/** Frees the memory allocated for a node.
+/** Frees the memory allocated for a node and any children.
  */
 CMARK_EXPORT void cmark_node_free(cmark_node *node);
 
@@ -418,7 +418,7 @@ CMARK_EXPORT void cmark_consolidate_text_nodes(cmark_node *root);
  * Streaming interface:
  *
  *     cmark_parser *parser = cmark_parser_new(CMARK_OPT_DEFAULT);
- *     FILE *fp = fopen("myfile.md", "r");
+ *     FILE *fp = fopen("myfile.md", "rb");
  *     while ((bytes = fread(buffer, 1, sizeof(buffer), fp)) > 0) {
  *     	   cmark_parser_feed(parser, buffer, bytes);
  *     	   if (bytes < sizeof(buffer)) {

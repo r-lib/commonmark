@@ -22,10 +22,12 @@ struct cmark_parser {
   bufsize_t first_nonspace_column;
   int indent;
   bool blank;
+  bool partially_consumed_tab;
   cmark_strbuf *curline;
   bufsize_t last_line_length;
   cmark_strbuf *linebuf;
   int options;
+  bool last_buffer_ended_with_cr;
 };
 
 #ifdef __cplusplus
