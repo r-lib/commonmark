@@ -15,5 +15,6 @@ notifications:
     on_success: change
     on_failure: change
 
-after_success:
-  - Rscript -e 'covr::codecov(type = "example")'
+# Freezes for whatever reason
+#after_success:
+#  - Rscript -e 'covr::codecov(type = "all")'
