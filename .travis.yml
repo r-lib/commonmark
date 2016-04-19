@@ -15,6 +15,7 @@ notifications:
     on_success: change
     on_failure: change
 
-# Freezes for whatever reason
 after_success:
+  # Workaround for covr not putting -O0 last
+  - mkdir -p ~/.R/ && echo "CFLAGS += -coverage -O0" > ~/.R/Makevars
   - Rscript -e 'covr::codecov(type = "all")'
