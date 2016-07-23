@@ -5,18 +5,15 @@ LIBCMARK= cmark/cmark.o cmark/node.o cmark/iterator.o cmark/blocks.o cmark/inlin
 	cmark/man.o cmark/xml.o cmark/html.o cmark/commonmark.o cmark/latex.o cmark/houdini_href_e.o \
 	cmark/houdini_html_e.o cmark/houdini_html_u.o cmark/cmark_ctype.o
 
-PKG_LIBS= -L. -lcmark
-
-$(SHLIB): libcmark.a
+PKG_LIBS= -L. -lstatcmark
 
 # For development only
-# $(OBJECTS): clean
-# PKG_CFLAGS= -Wall -pedantic
+# all: clean
+
+$(SHLIB): libstatcmark.a
+
+libstatcmark.a: $(LIBCMARK)
+	$(AR) rcs libstatcmark.a $(LIBCMARK)
 
 clean:
-	rm -f $(LIBCMARK)
-	rm -f *.o *.a *.so *.dll
-
-libcmark.a: $(LIBCMARK)
-	$(AR) rcs libcmark.a $(LIBCMARK)
-
+	rm -f $(LIBCMARK) $(OBJECTS) $(SHLIB) libstatcmark.a
