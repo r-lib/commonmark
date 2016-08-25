@@ -32,7 +32,7 @@ library(commonmark)
 # Get some markdown data
 md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
 
-# Convert it into formats formats
+# Convert it into different formats
 html <- markdown_html(md)
 xml <- markdown_xml(md)
 man <- markdown_man(md)
