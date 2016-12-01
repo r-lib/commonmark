@@ -22,7 +22,7 @@
 #' @param smart Use smart punctuation. See details.
 #' @param normalize Consolidate adjacent text nodes.
 #' @param extensions Enables Github extensions. Can be `TRUE` (all) `FALSE` (none) or a character
-#' vector with a subset of available [extensions][list_extension].
+#' vector with a subset of available [extensions].
 #' @param width Specify wrap width (default 0 = nowrap).
 #' @examples md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
 #' html <- markdown_html(md)
