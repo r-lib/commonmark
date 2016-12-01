@@ -1,4 +1,5 @@
 PKG_CPPFLAGS= -Icmark -I.
+PKG_CFLAGS=-Wno-pointer-to-int-cast
 
 LIBCMARK= cmark/cmark.o cmark/node.o cmark/iterator.o cmark/blocks.o cmark/inlines.o \
 	cmark/scanners.o cmark/utf8.o cmark/buffer.o cmark/references.o cmark/render.o \
