@@ -14,6 +14,8 @@
 #' See also the webpage on [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 #'
 #' @export
+#' @name extensions
+#' @rdname extensions
 #' @useDynLib commonmark R_list_extensions
 #' @examples print(list_extensions())
 list_extensions <- function(){

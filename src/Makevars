@@ -11,7 +11,7 @@ LIBCMARK= cmark/cmark.o cmark/node.o cmark/iterator.o cmark/blocks.o cmark/inlin
 PKG_LIBS= -L. -lstatcmark
 
 # For development only
-all: clean
+# all: clean
 
 $(SHLIB): libstatcmark.a
 

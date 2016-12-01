@@ -37,8 +37,8 @@ regardless of the value given with \code{width}.}
 
 \item{sourcepos}{Include source position attribute in output.}
 
-\item{extensions}{Enables Github extensions. Can be \code{TRUE} (all) \code{FALSE} (none) or character
-vector with a subset of \code{\link{list_extensions}}.}
+\item{extensions}{Enables Github extensions. Can be \code{TRUE} (all) \code{FALSE} (none) or a character
+vector with a subset of available \link[=list_extension]{extensions}.}
 
 \item{width}{Specify wrap width (default 0 = nowrap).}
 }
@@ -47,9 +47,11 @@ Converts markdown text to several formats using John MacFarlane's \href{https://
 reference implementation. Output in HTML, groff man, CommonMark, and a custom XML format is supported.
 }
 \details{
+Support for extensions is provided via the Github \href{https://github.com/github/cmark}{fork} of cmark.
+See also the manual page on \link{extensions}.
+
 When smart punctuation is enabled, straight double and single quotes will be rendered as curly quotes,
-depending on their position. Moreover \code{--} will be rendered as an en-dash, \code{---} will be
-rendered as an em-dash, and \code{...} will be rendered as ellipses.
+depending on their position. Moreover \code{--} will be rendered as an en-dash, \code{---`` will be rendered as an em-dash, and}...` will be rendered as ellipses.
 }
 \examples{
 md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))

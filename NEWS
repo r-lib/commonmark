@@ -1,7 +1,7 @@
 1.0
  - Switch to Github fork of cmark library (master@0e197aa)
  - Add bindings for enabling extensions
- - Switch to markdown format in roxygen2
+ - Switch to roxygen2 markdown format for manual pages
 
 0.9
  - Update libcmark to 0.26.1
