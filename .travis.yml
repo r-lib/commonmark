@@ -10,18 +10,12 @@ matrix:
       dist: trusty
       sudo: required
       env: R_CODECOV=true
-      r_check_args: '--use-valgrind'
     - os: osx
       osx_image: xcode8
       latex: false
     - os: osx
       osx_image: beta-xcode6.1
       disable_homebrew: true
-
-addons:
-  apt:
-    packages:
-    - valgrind
 
 r_github_packages:
   - jimhester/covr
