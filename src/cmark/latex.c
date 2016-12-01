@@ -10,6 +10,7 @@
 #include "utf8.h"
 #include "scanners.h"
 #include "render.h"
+#include "syntax_extension.h"
 
 #define OUT(s, wrap, escaping) renderer->out(renderer, s, wrap, escaping)
 #define LIT(s) renderer->out(renderer, s, false, LITERAL)
@@ -180,7 +181,7 @@ static link_type get_link_type(cmark_node *node) {
     link_text = node->first_child;
     cmark_consolidate_text_nodes(link_text);
     realurl = (char *)url;
-    realurllen = url_len;
+    realurllen = (int)url_len;
     if (strncmp(realurl, "mailto:", 7) == 0) {
       realurl += 7;
       realurllen -= 7;
@@ -223,8 +224,10 @@ static int S_render_node(cmark_renderer *renderer, cmark_node *node,
                                   "vi", "vii", "viii", "ix",  "x"};
   bool allow_wrap = renderer->width > 0 && !(CMARK_OPT_NOBREAKS & options);
 
-  // avoid warning about unused parameter:
-  (void)(options);
+  if (node->extension && node->extension->latex_render_func) {
+    node->extension->latex_render_func(node->extension, renderer, node, ev_type, options);
+    return 1;
+  }
 
   switch (node->type) {
   case CMARK_NODE_DOCUMENT:
@@ -434,5 +437,9 @@ static int S_render_node(cmark_renderer *renderer, cmark_node *node,
 }
 
 char *cmark_render_latex(cmark_node *root, int options, int width) {
-  return cmark_render(root, options, width, outc, S_render_node);
+  return cmark_render_latex_with_mem(root, options, width, cmark_node_mem(root));
+}
+
+char *cmark_render_latex_with_mem(cmark_node *root, int options, int width, cmark_mem *mem) {
+  return cmark_render(mem, root, options, width, outc, S_render_node);
 }

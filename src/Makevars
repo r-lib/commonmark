@@ -3,12 +3,15 @@ PKG_CPPFLAGS= -Icmark -I.
 LIBCMARK= cmark/cmark.o cmark/node.o cmark/iterator.o cmark/blocks.o cmark/inlines.o \
 	cmark/scanners.o cmark/utf8.o cmark/buffer.o cmark/references.o cmark/render.o \
 	cmark/man.o cmark/xml.o cmark/html.o cmark/commonmark.o cmark/latex.o cmark/houdini_href_e.o \
-	cmark/houdini_html_e.o cmark/houdini_html_u.o cmark/cmark_ctype.o
+	cmark/houdini_html_e.o cmark/houdini_html_u.o cmark/cmark_ctype.o cmark/arena.o \
+	cmark/html.o cmark/linked_list.o cmark/plugin.o cmark/registry.o cmark/syntax_extension.o \
+	extensions/autolink.o extensions/core-extensions.o extensions/ext_scanners.o \
+	extensions/strikethrough.o extensions/table.o extensions/tagfilter.o
 
 PKG_LIBS= -L. -lstatcmark
 
 # For development only
-# all: clean
+all: clean
 
 $(SHLIB): libstatcmark.a
 

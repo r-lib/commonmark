@@ -1,10 +1,14 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include "registry.h"
 #include "node.h"
 #include "houdini.h"
 #include "cmark.h"
 #include "buffer.h"
+
+cmark_node_type CMARK_NODE_LAST_BLOCK = CMARK_NODE_THEMATIC_BREAK;
+cmark_node_type CMARK_NODE_LAST_INLINE = CMARK_NODE_IMAGE;
 
 int cmark_version() { return CMARK_VERSION; }
 
@@ -24,7 +28,11 @@ static void *xrealloc(void *ptr, size_t size) {
   return new_ptr;
 }
 
-cmark_mem DEFAULT_MEM_ALLOCATOR = {xcalloc, xrealloc, free};
+cmark_mem CMARK_DEFAULT_MEM_ALLOCATOR = {xcalloc, xrealloc, free};
+
+cmark_mem *cmark_get_default_mem_allocator() {
+  return &CMARK_DEFAULT_MEM_ALLOCATOR;
+}
 
 char *cmark_markdown_to_html(const char *text, size_t len, int options) {
   cmark_node *doc;
@@ -32,7 +40,7 @@ char *cmark_markdown_to_html(const char *text, size_t len, int options) {
 
   doc = cmark_parse_document(text, len, options);
 
-  result = cmark_render_html(doc, options);
+  result = cmark_render_html(doc, options, NULL);
   cmark_node_free(doc);
 
   return result;

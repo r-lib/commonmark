@@ -2,28 +2,28 @@
 % Please edit documentation in R/markdown.R
 \name{commonmark}
 \alias{commonmark}
-\alias{markdown}
-\alias{markdown_commonmark}
 \alias{markdown_html}
-\alias{markdown_latex}
-\alias{markdown_man}
+\alias{markdown}
 \alias{markdown_xml}
+\alias{markdown_man}
+\alias{markdown_commonmark}
+\alias{markdown_latex}
 \title{Parse and render markdown text}
 \usage{
 markdown_html(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  sourcepos = FALSE)
+  sourcepos = FALSE, extensions = FALSE)
 
 markdown_xml(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  sourcepos = FALSE)
+  sourcepos = FALSE, extensions = FALSE)
 
 markdown_man(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  width = 0)
+  width = 0, extensions = FALSE)
 
 markdown_commonmark(text, hardbreaks = FALSE, smart = FALSE,
-  normalize = FALSE, width = 0)
+  normalize = FALSE, width = 0, extensions = FALSE)
 
 markdown_latex(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  width = 0)
+  width = 0, extensions = FALSE)
 }
 \arguments{
 \item{text}{Markdown text}
@@ -36,6 +36,9 @@ regardless of the value given with \code{width}.}
 \item{normalize}{Consolidate adjacent text nodes.}
 
 \item{sourcepos}{Include source position attribute in output.}
+
+\item{extensions}{Enables Github extensions. Can be \code{TRUE} (all) \code{FALSE} (none) or character
+vector with a subset of \code{\link{list_extensions}}.}
 
 \item{width}{Specify wrap width (default 0 = nowrap).}
 }

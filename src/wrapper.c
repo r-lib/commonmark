@@ -1,4 +1,4 @@
-/** cmark binding for R by Jeroen Ooms (2015)
+/** cmark binding for R by Jeroen Ooms (2016)
  *  Adapted from CLI in main.c
  *  NOTE: man(3) states that cmark assumes UTF-8 for both input and output
  */
@@ -6,6 +6,10 @@
 #include <Rinternals.h>
 #include <stdlib.h>
 #include "cmark.h"
+
+/* Github extensions */
+#include "extensions/core-extensions.h"
+#include "registry.h"
 
 typedef enum {
   FORMAT_NONE,
@@ -19,7 +23,7 @@ typedef enum {
 char* print_document(cmark_node *document, writer_format writer, int options, int width){
   switch (writer) {
   case FORMAT_HTML:
-    return cmark_render_html(document, options);
+    return cmark_render_html(document, options, NULL);
   case FORMAT_XML:
     return cmark_render_xml(document, options);
   case FORMAT_MAN:
@@ -34,7 +38,7 @@ char* print_document(cmark_node *document, writer_format writer, int options, in
   }
 }
 
-SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart, SEXP normalize, SEXP width) {
+SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart, SEXP normalize, SEXP width, SEXP extensions) {
 
   /* input validation */
   if(!isString(text))
@@ -59,9 +63,20 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   options += asLogical(smart) * CMARK_OPT_SMART;
   options += asLogical(normalize) * CMARK_OPT_NORMALIZE;
 
-  /* render output */
+  /* parse input */
   SEXP input = STRING_ELT(text, 0);
-  cmark_node *doc = cmark_parse_document(CHAR(input), LENGTH(input), options);
+  cmark_parser *parser = cmark_parser_new(options);
+  for(int i = 0; i < Rf_length(extensions); i++){
+    cmark_syntax_extension *syntax_extension = cmark_find_syntax_extension(CHAR(STRING_ELT(extensions, i)));
+    if(!syntax_extension)
+      Rf_error("Failed to find load 'table' extension");
+    cmark_parser_attach_syntax_extension(parser, syntax_extension);
+  }
+  cmark_parser_feed(parser, CHAR(input), LENGTH(input));
+  cmark_node *doc = cmark_parser_finish(parser);
+  cmark_parser_free(parser);
+
+  /* render output format */
   char *output = print_document(doc, asInteger(format), options, asInteger(width));
   cmark_node_free(doc);
 
