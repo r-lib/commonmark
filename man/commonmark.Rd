@@ -38,7 +38,7 @@ regardless of the value given with \code{width}.}
 \item{sourcepos}{Include source position attribute in output.}
 
 \item{extensions}{Enables Github extensions. Can be \code{TRUE} (all) \code{FALSE} (none) or a character
-vector with a subset of available \link[=list_extension]{extensions}.}
+vector with a subset of available \link{extensions}.}
 
 \item{width}{Specify wrap width (default 0 = nowrap).}
 }
