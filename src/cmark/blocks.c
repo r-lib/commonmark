@@ -1258,6 +1258,7 @@ static void S_process_line(cmark_parser *parser, const unsigned char *buffer,
 
   input.data = parser->curline.ptr;
   input.len = parser->curline.size;
+  input.alloc = 0;
 
   parser->line_number++;
 
@@ -1383,4 +1384,9 @@ void cmark_parser_advance_offset(cmark_parser *parser,
   cmark_chunk input_chunk = cmark_chunk_literal(input);
 
   S_advance_offset(parser, &input_chunk, count, columns != 0);
+}
+
+void cmark_parser_set_backslash_ispunct_func(cmark_parser *parser,
+                                             cmark_ispunct_func func) {
+  parser->backslash_ispunct = func;
 }
