@@ -5,3 +5,5 @@
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^readme.md$
+^readme.Rmd$
+^readme.html$
