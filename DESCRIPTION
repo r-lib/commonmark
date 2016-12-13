@@ -1,7 +1,7 @@
 Package: commonmark
 Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
-Version: 1.0.9000
+Version: 1.1
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen.ooms@stat.ucla.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark")

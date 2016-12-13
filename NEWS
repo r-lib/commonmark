@@ -1,3 +1,6 @@
+1.1
+ - Update upstream libcmark (github/cmark@57ca6e2)
+
 1.0
  - Switch to Github fork of cmark library (master@0e197aa)
  - Add bindings for enabling extensions
