@@ -7,6 +7,7 @@ extern "C" {
 
 #include <cmark.h>
 #include <render.h>
+#include <buffer.h>
 
 /**
  * ## Extension Support
@@ -113,6 +114,7 @@ typedef struct delimiter {
   struct delimiter *previous;
   struct delimiter *next;
   cmark_node *inl_text;
+  bufsize_t length;
   int position;
   unsigned char delim_char;
   int can_open;
