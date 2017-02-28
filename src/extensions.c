@@ -7,6 +7,8 @@
 
 void R_init_commonmark(DllInfo *info) {
   cmark_register_plugin(core_extensions_registration);
+  R_registerRoutines(info, NULL, NULL, NULL, NULL);
+  R_useDynamicSymbols(info, TRUE);
 }
 
 SEXP R_list_extensions(){

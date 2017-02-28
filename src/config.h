@@ -1,3 +1,6 @@
+#ifndef CMARK_CONFIG_H
+#define CMARK_CONFIG_H
+
 #define HAVE_STDBOOL_H
 
 #ifdef HAVE_STDBOOL_H
@@ -24,4 +27,6 @@
   #else
     #define CMARK_INLINE inline
   #endif
+#endif
+
 #endif

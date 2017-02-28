@@ -112,3 +112,13 @@ void cmark_syntax_extension_set_private(cmark_syntax_extension *extension,
   extension->priv = priv;
   extension->free_function = free_func;
 }
+
+void cmark_syntax_extension_set_opaque_free_func(cmark_syntax_extension *extension,
+                                                 cmark_opaque_free_func func) {
+  extension->opaque_free_func = func;
+}
+
+void cmark_syntax_extension_set_commonmark_escape_func(cmark_syntax_extension *extension,
+                                                       cmark_commonmark_escape_func func) {
+  extension->commonmark_escape_func = func;
+}

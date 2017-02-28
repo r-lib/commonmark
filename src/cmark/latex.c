@@ -12,13 +12,14 @@
 #include "render.h"
 #include "syntax_extension.h"
 
-#define OUT(s, wrap, escaping) renderer->out(renderer, s, wrap, escaping)
-#define LIT(s) renderer->out(renderer, s, false, LITERAL)
+#define OUT(s, wrap, escaping) renderer->out(renderer, node, s, wrap, escaping)
+#define LIT(s) renderer->out(renderer, node, s, false, LITERAL)
 #define CR() renderer->cr(renderer)
 #define BLANKLINE() renderer->blankline(renderer)
 #define LIST_NUMBER_STRING_SIZE 20
 
-static CMARK_INLINE void outc(cmark_renderer *renderer, cmark_escaping escape,
+static CMARK_INLINE void outc(cmark_renderer *renderer, cmark_node *node,
+                              cmark_escaping escape,
                               int32_t c, unsigned char nextc) {
   if (escape == LITERAL) {
     cmark_render_code_point(renderer, c);
@@ -43,7 +44,7 @@ static CMARK_INLINE void outc(cmark_renderer *renderer, cmark_escaping escape,
     break;
   case 45:             // '-'
     if (nextc == 45) { // prevent ligature
-      cmark_render_ascii(renderer, "\\-");
+      cmark_render_ascii(renderer, "-{}");
     } else {
       cmark_render_ascii(renderer, "-");
     }
@@ -393,7 +394,8 @@ static int S_render_node(cmark_renderer *renderer, cmark_node *node,
       case URL_AUTOLINK:
         LIT("\\url{");
         OUT(url, false, URL);
-        break;
+        LIT("}");
+        return 0; // Don't process further nodes to avoid double-rendering artefacts
       case EMAIL_AUTOLINK:
         LIT("\\href{");
         OUT(url, false, URL);

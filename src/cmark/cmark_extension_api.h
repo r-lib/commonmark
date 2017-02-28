@@ -234,6 +234,10 @@ typedef void (*cmark_common_render_func) (cmark_syntax_extension *extension,
                                           cmark_event_type ev_type,
                                           int options);
 
+typedef int (*cmark_commonmark_escape_func) (cmark_syntax_extension *extension,
+                                              cmark_node *node,
+                                              int c);
+
 typedef void (*cmark_html_render_func) (cmark_syntax_extension *extension,
                                         cmark_html_renderer *renderer,
                                         cmark_node *node,
@@ -245,9 +249,14 @@ typedef int (*cmark_html_filter_func) (cmark_syntax_extension *extension,
                                        size_t tag_len);
 
 typedef cmark_node *(*cmark_postprocess_func) (cmark_syntax_extension *extension,
+                                               cmark_parser *parser,
                                                cmark_node *root);
 
 typedef int (*cmark_ispunct_func) (char c);
+
+typedef void (*cmark_opaque_free_func) (cmark_syntax_extension *extension,
+                                        cmark_mem *mem,
+                                        cmark_node *node);
 
 /** Free a cmark_syntax_extension.
  */
@@ -343,6 +352,12 @@ void cmark_syntax_extension_set_html_filter_func(cmark_syntax_extension *extensi
 /** See the documentation for 'cmark_syntax_extension'
  */
 CMARK_EXPORT
+void cmark_syntax_extension_set_commonmark_escape_func(cmark_syntax_extension *extension,
+                                                       cmark_commonmark_escape_func func);
+
+/** See the documentation for 'cmark_syntax_extension'
+ */
+CMARK_EXPORT
 void cmark_syntax_extension_set_private(cmark_syntax_extension *extension,
                                         void *priv,
                                         cmark_free_func free_func);
@@ -356,7 +371,13 @@ void cmark_syntax_extension_set_postprocess_func(cmark_syntax_extension *extensi
 /** See the documentation for 'cmark_syntax_extension'
  */
 CMARK_EXPORT
-void cmark_parser_set_backslash_ispunct_func(cmark_parser *extension,
+void cmark_syntax_extension_set_opaque_free_func(cmark_syntax_extension *extension,
+                                                 cmark_opaque_free_func func);
+
+/** See the documentation for 'cmark_syntax_extension'
+ */
+CMARK_EXPORT
+void cmark_parser_set_backslash_ispunct_func(cmark_parser *parser,
                                              cmark_ispunct_func func);
 
 /** Return the index of the line currently being parsed, starting with 1.
@@ -661,6 +682,9 @@ int cmark_inline_parser_scan_delimiters(cmark_inline_parser *parser,
 
 CMARK_EXPORT
 void cmark_manage_extensions_special_characters(cmark_parser *parser, bool add);
+
+CMARK_EXPORT
+cmark_llist *cmark_parser_get_syntax_extensions(cmark_parser *parser);
 
 #ifdef __cplusplus
 }

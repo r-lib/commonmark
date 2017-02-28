@@ -639,7 +639,7 @@ static void S_parser_feed(cmark_parser *parser, const unsigned char *buffer,
           if (buffer == end)
             parser->last_buffer_ended_with_cr = true;
         }
-        if (*buffer == '\n')
+        if (buffer < end && *buffer == '\n')
           buffer++;
       }
     }
@@ -1317,19 +1317,19 @@ cmark_node *cmark_parser_finish(cmark_parser *parser) {
   }
 #endif
 
+  for (extensions = parser->syntax_extensions; extensions; extensions = extensions->next) {
+    cmark_syntax_extension *ext = (cmark_syntax_extension *) extensions->data;
+    if (ext->postprocess_func) {
+      cmark_node *processed = ext->postprocess_func(ext, parser, parser->root);
+      if (processed)
+        parser->root = processed;
+    }
+  }
+
   res = parser->root;
   parser->root = NULL;
 
   cmark_parser_reset(parser);
-
-  for (extensions = parser->syntax_extensions; extensions; extensions = extensions->next) {
-    cmark_syntax_extension *ext = (cmark_syntax_extension *) extensions->data;
-    if (ext->postprocess_func) {
-      cmark_node *processed = ext->postprocess_func(ext, res);
-      if (processed)
-        res = processed;
-    }
-  }
 
   return res;
 }
@@ -1389,4 +1389,8 @@ void cmark_parser_advance_offset(cmark_parser *parser,
 void cmark_parser_set_backslash_ispunct_func(cmark_parser *parser,
                                              cmark_ispunct_func func) {
   parser->backslash_ispunct = func;
+}
+
+cmark_llist *cmark_parser_get_syntax_extensions(cmark_parser *parser) {
+  return parser->syntax_extensions;
 }
