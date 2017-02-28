@@ -64,4 +64,3 @@ man <- markdown_man(md)
 tex <- markdown_latex(md)
 cm <- markdown_commonmark(md)
 }
-

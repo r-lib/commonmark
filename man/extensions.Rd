@@ -26,4 +26,3 @@ See also the webpage on \href{https://guides.github.com/features/mastering-markd
 \examples{
 print(list_extensions())
 }
-

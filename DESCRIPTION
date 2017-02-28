@@ -1,7 +1,7 @@
 Package: commonmark
 Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
-Version: 1.1
+Version: 1.2
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen.ooms@stat.ucla.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark")
@@ -17,5 +17,5 @@ Description: The CommonMark specification defines a rationalized version of mark
 License: BSD_2_clause + file LICENSE
 Suggests:
     curl
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
