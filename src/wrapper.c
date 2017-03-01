@@ -20,7 +20,7 @@ typedef enum {
   FORMAT_LATEX
 } writer_format;
 
-char* print_document(cmark_node *document, writer_format writer, int options, int width){
+static char* print_document(cmark_node *document, writer_format writer, int options, int width){
   switch (writer) {
   case FORMAT_HTML:
     return cmark_render_html(document, options, NULL);
