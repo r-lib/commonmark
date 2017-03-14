@@ -11,7 +11,7 @@
 #'  - **tagfilter** blacklist html tags: `title` `textarea` `style` `xmp` `iframe`
 #' `noembed` `noframes` `script` `plaintext`.
 #'
-#' See also the webpage on [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+#' See also the spec for [GitHub Flavored Markdown](https://github.github.com/gfm/).
 #'
 #' @export
 #' @name extensions
