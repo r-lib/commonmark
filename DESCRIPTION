@@ -6,8 +6,8 @@ Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark")
   )
-URL: https://github.com/jeroenooms/commonmark http://commonmark.org/help/
-BugReports: http://github.com/jeroenooms/commonmark/issues
+URL: https://github.com/jeroen/commonmark http://commonmark.org/help/
+BugReports: http://github.com/jeroen/commonmark/issues
 Description: The CommonMark specification defines a rationalized version of markdown
     syntax. This package uses the 'cmark' reference implementation for converting
     markdown text into various formats including html, latex and groff man. In
