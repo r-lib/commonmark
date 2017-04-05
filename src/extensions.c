@@ -19,7 +19,7 @@ SEXP R_list_extensions(){
   for(len = 0; tmp != NULL;len++){
     tmp = tmp->next;
   }
-  SEXP out = allocVector(STRSXP, len);
+  SEXP out = PROTECT(allocVector(STRSXP, len));
   int i = 0;
   for (tmp = syntax_extensions; tmp; tmp=tmp->next) {
     cmark_syntax_extension *ext = tmp->data;
@@ -27,5 +27,6 @@ SEXP R_list_extensions(){
     i++;
   }
   cmark_llist_free(mem, syntax_extensions);
+  UNPROTECT(1);
   return out;
 }
