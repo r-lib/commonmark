@@ -7,7 +7,7 @@
 #  define CMARK_NO_EXPORT
 #else
 #  ifndef CMARK_EXPORT
-#    ifdef libcmark_EXPORTS
+#    ifdef libcmark_gfm_EXPORTS
         /* We are building this library */
 #      define CMARK_EXPORT __attribute__((visibility("default")))
 #    else

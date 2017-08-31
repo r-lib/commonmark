@@ -23,6 +23,8 @@ static cmark_node *match(cmark_syntax_extension *self, cmark_parser *parser,
 
   res = cmark_node_new_with_mem(CMARK_NODE_TEXT, parser->mem);
   cmark_node_set_literal(res, buffer);
+  res->start_line = res->end_line = cmark_inline_parser_get_line(inline_parser);
+  res->start_column = cmark_inline_parser_get_column(inline_parser) - delims;
 
   if (left_flanking || right_flanking) {
     cmark_inline_parser_push_delimiter(inline_parser, character, left_flanking,
@@ -58,6 +60,7 @@ static delimiter *insert(cmark_syntax_extension *self, cmark_parser *parser,
     tmp = next;
   }
 
+  strikethrough->end_column = closer->inl_text->start_column + closer->inl_text->as.literal.len - 1;
   cmark_node_free(closer->inl_text);
 
   delim = closer;
@@ -146,6 +149,8 @@ cmark_syntax_extension *create_strikethrough_extension(void) {
   cmark_mem *mem = cmark_get_default_mem_allocator();
   special_chars = cmark_llist_append(mem, special_chars, (void *)'~');
   cmark_syntax_extension_set_special_inline_chars(ext, special_chars);
+
+  cmark_syntax_extension_set_emphasis(ext, true);
 
   return ext;
 }

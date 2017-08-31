@@ -1,12 +1,21 @@
 #include "autolink.h"
 #include <parser.h>
 #include <string.h>
+#include <utf8.h>
 
 #if defined(_WIN32)
 #define strncasecmp _strnicmp
 #else
 #include <strings.h>
 #endif
+
+static int is_valid_hostchar(const uint8_t *link, size_t link_len) {
+  int32_t ch;
+  int r = cmark_utf8proc_iterate(link, (bufsize_t)link_len, &ch);
+  if (r < 0)
+    return 0;
+  return !cmark_utf8proc_is_space(ch) && !cmark_utf8proc_is_punctuation(ch);
+}
 
 static int sd_autolink_issafe(const uint8_t *link, size_t link_len) {
   static const size_t valid_uris_count = 3;
@@ -18,7 +27,7 @@ static int sd_autolink_issafe(const uint8_t *link, size_t link_len) {
     size_t len = strlen(valid_uris[i]);
 
     if (link_len > len && strncasecmp((char *)link, valid_uris[i], len) == 0 &&
-        cmark_isalnum(link[len]))
+        is_valid_hostchar(link + len, link_len - len))
       return 1;
   }
 
@@ -46,7 +55,7 @@ static size_t autolink_delim(uint8_t *data, size_t link_end) {
       copen = 0;
     }
 
-    if (strchr("?!.,:*_~", data[link_end - 1]) != NULL)
+    if (strchr("?!.,:*_~'\"", data[link_end - 1]) != NULL)
       link_end--;
 
     else if (data[link_end - 1] == ';') {
@@ -114,7 +123,7 @@ static size_t check_domain(uint8_t *data, size_t size, int allow_short) {
       uscore1 = uscore2;
       uscore2 = 0;
       np++;
-    } else if (!cmark_isalnum(data[i]) && data[i] != '-')
+    } else if (!is_valid_hostchar(data + i, size - i) && data[i] != '-')
       break;
   }
 
@@ -140,10 +149,11 @@ static cmark_node *www_match(cmark_parser *parser, cmark_node *parent,
   size_t max_rewind = cmark_inline_parser_get_offset(inline_parser);
   uint8_t *data = chunk->data + max_rewind;
   size_t size = chunk->len - max_rewind;
+  int start = cmark_inline_parser_get_column(inline_parser);
 
   size_t link_end;
 
-  if (max_rewind > 0 && strchr("*_~([", data[-1]) == NULL &&
+  if (max_rewind > 0 && strchr("*_~(", data[-1]) == NULL &&
       !cmark_isspace(data[-1]))
     return 0;
 
@@ -177,6 +187,13 @@ static cmark_node *www_match(cmark_parser *parser, cmark_node *parent,
   text->as.literal =
       cmark_chunk_dup(chunk, (bufsize_t)max_rewind, (bufsize_t)link_end);
   cmark_node_append_child(node, text);
+
+  node->start_line = text->start_line =
+    node->end_line = text->end_line =
+    cmark_inline_parser_get_line(inline_parser);
+
+  node->start_column = text->start_column = start - 1;
+  node->end_column = text->end_column = cmark_inline_parser_get_column(inline_parser) - 1;
 
   return node;
 }

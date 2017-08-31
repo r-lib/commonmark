@@ -115,11 +115,9 @@ typedef struct delimiter {
   struct delimiter *next;
   cmark_node *inl_text;
   bufsize_t length;
-  int position;
   unsigned char delim_char;
   int can_open;
   int can_close;
-  int active;
 } delimiter;
 
 /**
@@ -271,6 +269,9 @@ cmark_syntax_extension *cmark_syntax_extension_new (const char *name);
 CMARK_EXPORT
 cmark_node_type cmark_syntax_extension_add_node(int is_inline);
 
+CMARK_EXPORT
+void cmark_syntax_extension_set_emphasis(cmark_syntax_extension *extension, bool emphasis);
+
 /** See the documentation for 'cmark_syntax_extension'
  */
 CMARK_EXPORT
@@ -328,6 +329,12 @@ void cmark_syntax_extension_set_commonmark_render_func(cmark_syntax_extension *e
 /** See the documentation for 'cmark_syntax_extension'
  */
 CMARK_EXPORT
+void cmark_syntax_extension_set_plaintext_render_func(cmark_syntax_extension *extension,
+                                                      cmark_common_render_func func);
+
+/** See the documentation for 'cmark_syntax_extension'
+ */
+CMARK_EXPORT
 void cmark_syntax_extension_set_latex_render_func(cmark_syntax_extension *extension,
                                                   cmark_common_render_func func);
 
@@ -361,6 +368,11 @@ CMARK_EXPORT
 void cmark_syntax_extension_set_private(cmark_syntax_extension *extension,
                                         void *priv,
                                         cmark_free_func free_func);
+
+/** See the documentation for 'cmark_syntax_extension'
+ */
+CMARK_EXPORT
+void *cmark_syntax_extension_get_private(cmark_syntax_extension *extension);
 
 /** See the documentation for 'cmark_syntax_extension'
  */
@@ -657,6 +669,12 @@ void cmark_inline_parser_remove_delimiter(cmark_inline_parser *parser, delimiter
 CMARK_EXPORT
 delimiter *cmark_inline_parser_get_last_delimiter(cmark_inline_parser *parser);
 
+CMARK_EXPORT
+int cmark_inline_parser_get_line(cmark_inline_parser *parser);
+
+CMARK_EXPORT
+int cmark_inline_parser_get_column(cmark_inline_parser *parser);
+
 /** Convenience function to scan a given delimiter.
  *
  * 'left_flanking' and 'right_flanking' will be set to true if they
@@ -685,6 +703,12 @@ void cmark_manage_extensions_special_characters(cmark_parser *parser, bool add);
 
 CMARK_EXPORT
 cmark_llist *cmark_parser_get_syntax_extensions(cmark_parser *parser);
+
+CMARK_EXPORT
+void cmark_arena_push(void);
+
+CMARK_EXPORT
+int cmark_arena_pop(void);
 
 #ifdef __cplusplus
 }

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include <assert.h>
 
 #include "config.h"
@@ -33,8 +34,7 @@ static CMARK_INLINE void outc(cmark_renderer *renderer, cmark_node *node,
   needs_escaping =
       c < 0x80 && escape != LITERAL &&
       ((escape == NORMAL &&
-        ((node->parent && node->parent->extension && node->parent->extension->commonmark_escape_func && node->parent->extension->commonmark_escape_func(node->extension, node->parent, c)) ||
-         c == '*' || c == '_' || c == '[' || c == ']' || c == '#' || c == '<' ||
+        (c == '*' || c == '_' || c == '[' || c == ']' || c == '#' || c == '<' ||
          c == '>' || c == '\\' || c == '`' || c == '!' ||
          (c == '&' && cmark_isalpha(nextc)) || (c == '!' && nextc == '[') ||
          (renderer->begin_content && (c == '-' || c == '+' || c == '=') &&
@@ -84,7 +84,9 @@ static int longest_backtick_sequence(const char *code) {
 }
 
 static int shortest_unused_backtick_sequence(const char *code) {
-  int32_t used = 1;
+  // note: if the shortest sequence is >= 32, this returns 32
+  // so as not to overflow the bit array.
+  uint32_t used = 1;
   int current = 0;
   size_t i = 0;
   size_t code_len = strlen(code);
@@ -92,8 +94,8 @@ static int shortest_unused_backtick_sequence(const char *code) {
     if (code[i] == '`') {
       current++;
     } else {
-      if (current) {
-        used |= (1 << current);
+      if (current > 0 && current < 32) {
+        used |= (1U << current);
       }
       current = 0;
     }
@@ -101,7 +103,7 @@ static int shortest_unused_backtick_sequence(const char *code) {
   }
   // return number of first bit that is 0:
   i = 0;
-  while (used & 1) {
+  while (i < 32 && used & 1) {
     used = used >> 1;
     i++;
   }

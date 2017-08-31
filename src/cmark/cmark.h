@@ -11,7 +11,7 @@ extern "C" {
 
 /** # NAME
  *
- * **cmark** - CommonMark parsing, manipulating, and rendering
+ * **cmark-gfm** - CommonMark parsing, manipulating, and rendering
  */
 
 /** # DESCRIPTION
@@ -337,7 +337,8 @@ CMARK_EXPORT
 const char *cmark_node_get_type_string(cmark_node *node);
 
 /** Returns the string contents of 'node', or an empty
-    string if none is set.
+    string if none is set.  Returns NULL if called on a
+    node that does not have string content.
  */
 CMARK_EXPORT const char *cmark_node_get_literal(cmark_node *node);
 
@@ -415,7 +416,8 @@ CMARK_EXPORT int cmark_node_set_fenced(cmark_node * node, int fenced,
 CMARK_EXPORT int cmark_node_get_fenced(cmark_node *node, int *length, int *offset, char *character);
 
 /** Returns the URL of a link or image 'node', or an empty string
-    if no URL is set.
+    if no URL is set.  Returns NULL if called on a node that is
+    not a link or image.
  */
 CMARK_EXPORT const char *cmark_node_get_url(cmark_node *node);
 
@@ -425,7 +427,8 @@ CMARK_EXPORT const char *cmark_node_get_url(cmark_node *node);
 CMARK_EXPORT int cmark_node_set_url(cmark_node *node, const char *url);
 
 /** Returns the title of a link or image 'node', or an empty
-    string if no title is set.
+    string if no title is set.  Returns NULL if called on a node
+    that is not a link or image.
  */
 CMARK_EXPORT const char *cmark_node_get_title(cmark_node *node);
 
@@ -435,7 +438,8 @@ CMARK_EXPORT const char *cmark_node_get_title(cmark_node *node);
 CMARK_EXPORT int cmark_node_set_title(cmark_node *node, const char *title);
 
 /** Returns the literal "on enter" text for a custom 'node', or
-    an empty string if no on_enter is set.
+    an empty string if no on_enter is set.  Returns NULL if called
+    on a non-custom node.
  */
 CMARK_EXPORT const char *cmark_node_get_on_enter(cmark_node *node);
 
@@ -447,7 +451,8 @@ CMARK_EXPORT int cmark_node_set_on_enter(cmark_node *node,
                                          const char *on_enter);
 
 /** Returns the literal "on exit" text for a custom 'node', or
-    an empty string if no on_exit is set.
+    an empty string if no on_exit is set.  Returns NULL if
+    called on a non-custom node.
  */
 CMARK_EXPORT const char *cmark_node_get_on_exit(cmark_node *node);
 
@@ -630,6 +635,18 @@ char *cmark_render_commonmark(cmark_node *root, int options, int width);
 CMARK_EXPORT
 char *cmark_render_commonmark_with_mem(cmark_node *root, int options, int width, cmark_mem *mem);
 
+/** Render a 'node' tree as a plain text document.
+ * It is the caller's responsibility to free the returned buffer.
+ */
+CMARK_EXPORT
+char *cmark_render_plaintext(cmark_node *root, int options, int width);
+
+/** As for 'cmark_render_plaintext', but specifying the allocator to use for
+ * the resulting string.
+ */
+CMARK_EXPORT
+char *cmark_render_plaintext_with_mem(cmark_node *root, int options, int width, cmark_mem *mem);
+
 /** Render a 'node' tree as a LaTeX document.
  * It is the caller's responsibility to free the returned buffer.
  */
@@ -678,7 +695,7 @@ char *cmark_render_latex_with_mem(cmark_node *root, int options, int width, cmar
  * ### Options affecting parsing
  */
 
-/** Normalize tree by consolidating adjacent text nodes.
+/** Legacy option (no effect).
  */
 #define CMARK_OPT_NORMALIZE (1 << 8)
 
@@ -690,6 +707,15 @@ char *cmark_render_latex_with_mem(cmark_node *root, int options, int width, cmar
 /** Convert straight quotes to curly, --- to em dashes, -- to en dashes.
  */
 #define CMARK_OPT_SMART (1 << 10)
+
+/** Use GitHub-style <pre lang="x"> tags for code blocks instead of <pre><code
+ * class="language-x">.
+ */
+#define CMARK_OPT_GITHUB_PRE_LANG (1 << 11)
+
+/** Be liberal in interpreting inline HTML tags.
+ */
+#define CMARK_OPT_LIBERAL_HTML_TAG (1 << 12)
 
 /**
  * ## Version information

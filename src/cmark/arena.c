@@ -2,9 +2,11 @@
 #include <string.h>
 #include <stdint.h>
 #include "cmark.h"
+#include "cmark_extension_api.h"
 
 static struct arena_chunk {
   size_t sz, used;
+  uint8_t push_point;
   void *ptr;
   struct arena_chunk *prev;
 } *A = NULL;
@@ -19,6 +21,27 @@ static struct arena_chunk *alloc_arena_chunk(size_t sz, struct arena_chunk *prev
     abort();
   c->prev = prev;
   return c;
+}
+
+void cmark_arena_push(void) {
+  if (!A)
+    return;
+  A->push_point = 1;
+  A = alloc_arena_chunk(10240, A);
+}
+
+int cmark_arena_pop(void) {
+  if (!A)
+    return 0;
+  while (A && !A->push_point) {
+    free(A->ptr);
+    struct arena_chunk *n = A->prev;
+    free(A);
+    A = n;
+  }
+  if (A)
+    A->push_point = 0;
+  return 1;
 }
 
 static void init_arena(void) {
@@ -39,6 +62,12 @@ static void *arena_calloc(size_t nmem, size_t size) {
     init_arena();
 
   size_t sz = nmem * size + sizeof(size_t);
+
+  // Round allocation sizes to largest integer size to
+  // ensure returned memory is correctly aligned
+  const size_t align = sizeof(size_t) - 1;
+  sz = (sz + align) & ~align;
+
   if (sz > A->sz) {
     A->prev = alloc_arena_chunk(sz, A->prev);
     return (uint8_t *) A->prev->ptr + sizeof(size_t);
@@ -48,7 +77,7 @@ static void *arena_calloc(size_t nmem, size_t size) {
   }
   void *ptr = (uint8_t *) A->ptr + A->used;
   A->used += sz;
-  *((size_t *) ptr) = nmem * size;
+  *((size_t *) ptr) = sz - sizeof(size_t);
   return (uint8_t *) ptr + sizeof(size_t);
 }
 

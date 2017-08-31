@@ -7,7 +7,7 @@
 #  define CMARKEXTENSIONS_NO_EXPORT
 #else
 #  ifndef CMARKEXTENSIONS_EXPORT
-#    ifdef libcmarkextensions_EXPORTS
+#    ifdef libcmark_gfmextensions_EXPORTS
         /* We are building this library */
 #      define CMARKEXTENSIONS_EXPORT __attribute__((visibility("default")))
 #    else

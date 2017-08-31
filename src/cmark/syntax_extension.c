@@ -36,6 +36,11 @@ cmark_node_type cmark_syntax_extension_add_node(int is_inline) {
   return *ref = (cmark_node_type) ((int) *ref + 1);
 }
 
+void cmark_syntax_extension_set_emphasis(cmark_syntax_extension *extension,
+                                         bool emphasis) {
+  extension->emphasis = emphasis;
+}
+
 void cmark_syntax_extension_set_open_block_func(cmark_syntax_extension *extension,
                                                 cmark_open_block_func func) {
   extension->try_opening_block = func;
@@ -81,6 +86,11 @@ void cmark_syntax_extension_set_commonmark_render_func(cmark_syntax_extension *e
   extension->commonmark_render_func = func;
 }
 
+void cmark_syntax_extension_set_plaintext_render_func(cmark_syntax_extension *extension,
+                                                      cmark_common_render_func func) {
+  extension->plaintext_render_func = func;
+}
+
 void cmark_syntax_extension_set_latex_render_func(cmark_syntax_extension *extension,
                                                   cmark_common_render_func func) {
   extension->latex_render_func = func;
@@ -111,6 +121,10 @@ void cmark_syntax_extension_set_private(cmark_syntax_extension *extension,
                                         cmark_free_func free_func) {
   extension->priv = priv;
   extension->free_function = free_func;
+}
+
+void *cmark_syntax_extension_get_private(cmark_syntax_extension *extension) {
+    return extension->priv;
 }
 
 void cmark_syntax_extension_set_opaque_free_func(cmark_syntax_extension *extension,

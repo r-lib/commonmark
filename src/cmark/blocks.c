@@ -394,9 +394,9 @@ void cmark_manage_extensions_special_characters(cmark_parser *parser, bool add) 
     for (tmp_char = ext->special_inline_chars; tmp_char; tmp_char=tmp_char->next) {
       unsigned char c = (unsigned char)(size_t)tmp_char->data;
       if (add)
-        cmark_inlines_add_special_character(c);
+        cmark_inlines_add_special_character(c, ext->emphasis);
       else
-        cmark_inlines_remove_special_character(c);
+        cmark_inlines_remove_special_character(c, ext->emphasis);
     }
   }
 }
@@ -460,8 +460,8 @@ static bufsize_t parse_list_marker(cmark_mem *mem, cmark_chunk *input,
     data->marker_offset = 0; // will be adjusted later
     data->list_type = CMARK_BULLET_LIST;
     data->bullet_char = c;
-    data->start = 1;
-    data->delimiter = CMARK_PERIOD_DELIM;
+    data->start = 0;
+    data->delimiter = CMARK_NO_DELIM;
     data->tight = false;
   } else if (cmark_isdigit(c)) {
     int start = 0;
@@ -980,6 +980,7 @@ static void open_new_blocks(cmark_parser *parser, cmark_node **container,
 
       (*container)->as.heading.level = level;
       (*container)->as.heading.setext = false;
+      (*container)->internal_offset = matched;
 
     } else if (!indented && (matched = scan_open_code_fence(
                                  input, parser->first_nonspace))) {
@@ -1247,6 +1248,8 @@ static void S_process_line(cmark_parser *parser, const unsigned char *buffer,
   else
     cmark_strbuf_put(&parser->curline, buffer, bytes);
 
+  bytes = parser->curline.size;
+
   // ensure line ends with a newline:
   if (bytes == 0 || !S_is_line_end_char(parser->curline.ptr[bytes - 1]))
     cmark_strbuf_putc(&parser->curline, '\n');
@@ -1259,6 +1262,12 @@ static void S_process_line(cmark_parser *parser, const unsigned char *buffer,
   input.data = parser->curline.ptr;
   input.len = parser->curline.size;
   input.alloc = 0;
+
+  // Skip UTF-8 BOM.
+  if (parser->line_number == 0 &&
+      input.len >= 3 &&
+      memcmp(input.data, "\xef\xbb\xbf", 3) == 0)
+    parser->offset += 3;
 
   parser->line_number++;
 
@@ -1304,9 +1313,7 @@ cmark_node *cmark_parser_finish(cmark_parser *parser) {
 
   finalize_document(parser);
 
-  if (parser->options & CMARK_OPT_NORMALIZE) {
-    cmark_consolidate_text_nodes(parser->root);
-  }
+  cmark_consolidate_text_nodes(parser->root);
 
   cmark_strbuf_free(&parser->curline);
   cmark_strbuf_free(&parser->linebuf);

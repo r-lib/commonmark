@@ -7,7 +7,7 @@
 #include "registry.h"
 
 attribute_visible void R_init_commonmark(DllInfo *info) {
-  cmark_register_plugin(core_extensions_registration);
+  core_extensions_ensure_registered();
   R_registerRoutines(info, NULL, NULL, NULL, NULL);
   R_useDynamicSymbols(info, TRUE);
 }
