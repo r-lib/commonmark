@@ -26,7 +26,7 @@
 #' @param extensions Enables Github extensions. Can be `TRUE` (all) `FALSE` (none) or a character
 #' vector with a subset of available [extensions].
 #' @param width Specify wrap width (default 0 = nowrap).
-#' @examples md <- readLines(curl::curl("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md"))
+#' @examples md <- readLines("https://raw.githubusercontent.com/yihui/knitr/master/NEWS.md")
 #' html <- markdown_html(md)
 #' xml <- markdown_xml(md)
 #' man <- markdown_man(md)
