@@ -4,6 +4,7 @@
  */
 
 #include <Rinternals.h>
+#include <R_ext/Visibility.h>
 #include <stdlib.h>
 #include "cmark.h"
 
@@ -38,7 +39,7 @@ static char* print_document(cmark_node *document, writer_format writer, int opti
   }
 }
 
-SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart, SEXP normalize, SEXP width, SEXP extensions) {
+attribute_visible SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart, SEXP normalize, SEXP width, SEXP extensions) {
 
   /* input validation */
   if(!isString(text))

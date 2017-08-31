@@ -1,12 +1,12 @@
 Package: commonmark
 Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
-Version: 1.2
+Version: 1.2.9000
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark")
   )
-URL: http://commonmark.org/help/ https://github.github.com/gfm/
+URL: http://github.com/jeroen/commonmark (devel) https://github.github.com/gfm/ (spec)
 BugReports: http://github.com/jeroen/commonmark/issues
 Description: The CommonMark specification defines a rationalized version of markdown
     syntax. This package uses the 'cmark' reference implementation for converting

@@ -1,5 +1,6 @@
 language: r
 cache: packages
+latex: false
 
 matrix:
   include:
@@ -8,14 +9,11 @@ matrix:
       sudo: false
     - os: linux
       dist: trusty
-      sudo: required
       env: R_CODECOV=true
     - os: osx
-      osx_image: xcode8
-      latex: false
+      osx_image: xcode8.3
     - os: osx
-      osx_image: beta-xcode6.1
-      disable_homebrew: true
+      osx_image: xcode7.3
 
 r_github_packages:
   - jimhester/covr
