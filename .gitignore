@@ -5,6 +5,7 @@
 .Rproj.user
 .Rhistory
 src/*.a
+src/*/*.a
 src/*.o
 src/*.so
 inst/doc

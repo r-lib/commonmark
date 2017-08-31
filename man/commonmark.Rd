@@ -7,6 +7,7 @@
 \alias{markdown_xml}
 \alias{markdown_man}
 \alias{markdown_commonmark}
+\alias{markdown_text}
 \alias{markdown_latex}
 \title{Parse and render markdown text}
 \usage{
@@ -21,6 +22,9 @@ markdown_man(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
 
 markdown_commonmark(text, hardbreaks = FALSE, smart = FALSE,
   normalize = FALSE, width = 0, extensions = FALSE)
+
+markdown_text(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
+  width = 0, extensions = FALSE)
 
 markdown_latex(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
   width = 0, extensions = FALSE)

@@ -21,7 +21,7 @@ Currently the following extensions are supported:
 \code{noembed} \code{noframes} \code{script} \code{plaintext}.
 }
 
-See also the webpage on \href{https://guides.github.com/features/mastering-markdown/}{GitHub Flavored Markdown}.
+See also the spec for \href{https://github.github.com/gfm/}{GitHub Flavored Markdown}.
 }
 \examples{
 print(list_extensions())
