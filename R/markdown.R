@@ -32,6 +32,7 @@
 #' man <- markdown_man(md)
 #' tex <- markdown_latex(md)
 #' cm <- markdown_commonmark(md)
+#' text <- markdown_text(md)
 markdown_html <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)

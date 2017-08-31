@@ -67,4 +67,5 @@ xml <- markdown_xml(md)
 man <- markdown_man(md)
 tex <- markdown_latex(md)
 cm <- markdown_commonmark(md)
+text <- markdown_text(md)
 }
