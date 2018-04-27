@@ -6,7 +6,7 @@
 #' Currently the following extensions are supported:
 #'
 #'  - **table** support rendering of tables
-#'  - **strikethough** via `~sometext~` syntax
+#'  - **strikethrough** via `~sometext~` syntax
 #'  - **autolink** automatically turn URLs into hyperlinks
 #'  - **tagfilter** blacklist html tags: `title` `textarea` `style` `xmp` `iframe`
 #' `noembed` `noframes` `script` `plaintext`.
