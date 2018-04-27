@@ -4,6 +4,7 @@
 #include <parser.h>
 #include <references.h>
 #include <string.h>
+#include <render.h>
 
 #include "ext_scanners.h"
 #include "strikethrough.h"
@@ -577,6 +578,10 @@ static void html_render(cmark_syntax_extension *extension,
         table_state->in_table_header = 1;
         cmark_strbuf_puts(html, "<thead>");
         cmark_html_render_cr(html);
+      } else if (!table_state->need_closing_table_body) {
+        cmark_strbuf_puts(html, "<tbody>");
+        cmark_html_render_cr(html);
+        table_state->need_closing_table_body = 1;
       }
       cmark_strbuf_puts(html, "<tr");
       cmark_html_render_sourcepos(node, html, options);
@@ -587,9 +592,6 @@ static void html_render(cmark_syntax_extension *extension,
       if (((node_table_row *)node->as.opaque)->is_header) {
         cmark_html_render_cr(html);
         cmark_strbuf_puts(html, "</thead>");
-        cmark_html_render_cr(html);
-        cmark_strbuf_puts(html, "<tbody>");
-        table_state->need_closing_table_body = 1;
         table_state->in_table_header = false;
       }
     }

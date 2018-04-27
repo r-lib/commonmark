@@ -1,3 +1,6 @@
+1.5
+ - Update libcmark-gfm to 0.28.3.gfm.12
+
 1.4
  - Update libcmark-gfm to 0.28.0.gfm.8
  - Add new output markdown_text()
