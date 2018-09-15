@@ -4,14 +4,14 @@
 #include <errno.h>
 #include "config.h"
 #include "memory.h"
-#include "cmark.h"
+#include "cmark-gfm.h"
 #include "node.h"
-#include "cmark_extension_api.h"
+#include "cmark-gfm-extension_api.h"
 #include "syntax_extension.h"
 #include "parser.h"
 #include "registry.h"
 
-#include "../extensions/core-extensions.h"
+#include "../extensions/cmark-gfm-core-extensions.h"
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #include <io.h>
@@ -31,19 +31,24 @@ typedef enum {
 void print_usage() {
   printf("Usage:   cmark-gfm [FILE*]\n");
   printf("Options:\n");
-  printf("  --to, -t FORMAT  Specify output format (html, xml, man, "
+  printf("  --to, -t FORMAT   Specify output format (html, xml, man, "
          "commonmark, plaintext, latex)\n");
-  printf("  --width WIDTH    Specify wrap width (default 0 = nowrap)\n");
-  printf("  --sourcepos      Include source position attribute\n");
-  printf("  --hardbreaks     Treat newlines as hard line breaks\n");
-  printf("  --nobreaks       Render soft line breaks as spaces\n");
-  printf("  --safe           Suppress raw HTML and dangerous URLs\n");
-  printf("  --smart          Use smart punctuation\n");
-  printf("  --validate-utf8  Replace UTF-8 invalid sequences with U+FFFD\n");
+  printf("  --width WIDTH     Specify wrap width (default 0 = nowrap)\n");
+  printf("  --sourcepos       Include source position attribute\n");
+  printf("  --hardbreaks      Treat newlines as hard line breaks\n");
+  printf("  --nobreaks        Render soft line breaks as spaces\n");
+  printf("  --safe            Suppress raw HTML and dangerous URLs\n");
+  printf("  --smart           Use smart punctuation\n");
+  printf("  --validate-utf8   Replace UTF-8 invalid sequences with U+FFFD\n");
   printf("  --github-pre-lang Use GitHub-style <pre lang> for code blocks\n");
-  printf("  --footnotes      Parse footnotes\n");
-  printf("  --extension, -e EXTENSION_NAME Specify an extension name to use\n");
-  printf("  --list-extensions              List available extensions and quit\n");
+  printf("  --extension, -e EXTENSION_NAME  Specify an extension name to use\n");
+  printf("  --list-extensions               List available extensions and quit\n");
+  printf("  --strikethrough-double-tilde    Only parse strikethrough (if enabled)\n");
+  printf("                                  with two tildes\n");
+  printf("  --table-prefer-style-attributes Use style attributes to align table cells\n"
+         "                                  instead of align attributes.\n");
+  printf("  --full-info-string              Include remainder of code block info\n"
+         "                                  string in a separate attribute.\n");
   printf("  --help, -h       Print usage information\n");
   printf("  --version        Print version\n");
 }
@@ -87,7 +92,7 @@ static void print_extensions(void) {
   cmark_llist *syntax_extensions;
   cmark_llist *tmp;
 
-  printf ("Available extensions:\n");
+  printf ("Available extensions:\nfootnotes\n");
 
   cmark_mem *mem = cmark_get_default_mem_allocator();
   syntax_extensions = cmark_list_syntax_extensions(mem);
@@ -112,7 +117,7 @@ int main(int argc, char *argv[]) {
   int options = CMARK_OPT_DEFAULT;
   int res = 1;
 
-  core_extensions_ensure_registered();
+  cmark_gfm_core_extensions_ensure_registered();
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
   _setmode(_fileno(stdin), _O_BINARY);
@@ -123,12 +128,18 @@ int main(int argc, char *argv[]) {
 
   for (i = 1; i < argc; i++) {
     if (strcmp(argv[i], "--version") == 0) {
-      printf("cmark %s", CMARK_VERSION_STRING);
-      printf(" - CommonMark converter\n(C) 2014-2016 John MacFarlane\n");
+      printf("cmark-gfm %s", CMARK_GFM_VERSION_STRING);
+      printf(" - CommonMark with GitHub Flavored Markdown converter\n(C) 2014-2016 John MacFarlane\n");
       goto success;
     } else if (strcmp(argv[i], "--list-extensions") == 0) {
       print_extensions();
       goto success;
+    } else if (strcmp(argv[i], "--full-info-string") == 0) {
+      options |= CMARK_OPT_FULL_INFO_STRING;
+    } else if (strcmp(argv[i], "--table-prefer-style-attributes") == 0) {
+      options |= CMARK_OPT_TABLE_PREFER_STYLE_ATTRIBUTES;
+    } else if (strcmp(argv[i], "--strikethrough-double-tilde") == 0) {
+      options |= CMARK_OPT_STRIKETHROUGH_DOUBLE_TILDE;
     } else if (strcmp(argv[i], "--sourcepos") == 0) {
       options |= CMARK_OPT_SOURCEPOS;
     } else if (strcmp(argv[i], "--hardbreaks") == 0) {
@@ -139,8 +150,6 @@ int main(int argc, char *argv[]) {
       options |= CMARK_OPT_SMART;
     } else if (strcmp(argv[i], "--github-pre-lang") == 0) {
       options |= CMARK_OPT_GITHUB_PRE_LANG;
-    } else if (strcmp(argv[i], "--footnotes") == 0) {
-      options |= CMARK_OPT_FOOTNOTES;
     } else if (strcmp(argv[i], "--safe") == 0) {
       options |= CMARK_OPT_SAFE;
     } else if (strcmp(argv[i], "--validate-utf8") == 0) {
@@ -190,6 +199,10 @@ int main(int argc, char *argv[]) {
     } else if ((strcmp(argv[i], "-e") == 0) || (strcmp(argv[i], "--extension") == 0)) {
       i += 1; // Simpler to handle extensions in a second pass, as we can directly register
               // them with the parser.
+
+      if (i < argc && strcmp(argv[i], "footnotes") == 0) {
+        options |= CMARK_OPT_FOOTNOTES;
+      }
     } else if (*argv[i] == '-') {
       print_usage();
       goto failure;
@@ -208,6 +221,9 @@ int main(int argc, char *argv[]) {
     if ((strcmp(argv[i], "-e") == 0) || (strcmp(argv[i], "--extension") == 0)) {
       i += 1;
       if (i < argc) {
+        if (strcmp(argv[i], "footnotes") == 0) {
+          continue;
+        }
         cmark_syntax_extension *syntax_extension = cmark_find_syntax_extension(argv[i]);
         if (!syntax_extension) {
           fprintf(stderr, "Unknown extension %s\n", argv[i]);

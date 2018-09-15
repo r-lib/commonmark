@@ -6,10 +6,10 @@
 #include <Rinternals.h>
 #include <R_ext/Visibility.h>
 #include <stdlib.h>
-#include "cmark.h"
+#include "cmark-gfm.h"
 
 /* Github extensions */
-#include "extensions/core-extensions.h"
+#include "extensions/cmark-gfm-core-extensions.h"
 #include "registry.h"
 
 typedef enum {
