@@ -1,5 +1,6 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
+#include <R_ext/Visibility.h>
 #include "extensions/cmark-gfm-core-extensions.h"
 
 extern SEXP R_list_extensions();
@@ -11,7 +12,7 @@ static const R_CallMethodDef CallEntries[] = {
   {NULL, NULL, 0}
 };
 
-void R_init_commonmark(DllInfo *dll){
+attribute_visible void R_init_commonmark(DllInfo *dll){
   cmark_gfm_core_extensions_ensure_registered();
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
