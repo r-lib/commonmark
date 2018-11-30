@@ -16,4 +16,5 @@ attribute_visible void R_init_commonmark(DllInfo *dll){
   cmark_gfm_core_extensions_ensure_registered();
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
+  R_forceSymbols(dll, TRUE);
 }
