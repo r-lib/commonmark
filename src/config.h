@@ -13,7 +13,9 @@ extern "C" {
   typedef char bool;
 #endif
 
+#if !(defined(__sun) && defined(__SVR4))
 #define HAVE___BUILTIN_EXPECT
+#endif
 
 #define HAVE___ATTRIBUTE__
 
