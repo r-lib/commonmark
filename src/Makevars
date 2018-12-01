@@ -1,4 +1,4 @@
-PKG_CPPFLAGS = -Icmark -I. -DCMARK_STATIC_DEFINE
+PKG_CPPFLAGS = -Icmark -I. -DCMARK_GFM_STATIC_DEFINE -DCMARK_GFM_EXTENSIONS_STATIC_DEFINE
 PKG_CFLAGS = $(C_VISIBILITY)
 
 LIBCMARK = cmark/cmark.o cmark/node.o cmark/iterator.o cmark/blocks.o cmark/inlines.o \
