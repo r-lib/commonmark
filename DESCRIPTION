@@ -15,6 +15,7 @@ Description: The CommonMark specification defines a rationalized version of mark
 License: BSD_2_clause + file LICENSE
 Suggests:
     curl,
-    testthat
+    testthat,
+    xml2
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
