@@ -14,6 +14,7 @@ Description: The CommonMark specification defines a rationalized version of mark
     support for GFM extensions including tables, autolinks, and strikethrough text.
 License: BSD_2_clause + file LICENSE
 Suggests:
-    curl
+    curl,
+    testthat
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)

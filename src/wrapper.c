@@ -65,7 +65,7 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   options += Rf_asLogical(smart) * CMARK_OPT_SMART;
   options += Rf_asLogical(normalize) * CMARK_OPT_NORMALIZE;
 
-  /* GFM filters embedded images by default */
+  /* Prevent filtering embedded resources: https://github.com/github/cmark-gfm#security */
   options += CMARK_OPT_UNSAFE;
 
   /* parse input */
