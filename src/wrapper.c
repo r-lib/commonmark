@@ -43,27 +43,27 @@ static char* print_document(cmark_node *document, writer_format writer, int opti
 SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart, SEXP normalize, SEXP width, SEXP extensions) {
 
   /* input validation */
-  if(!isString(text))
-    error("Argument 'text' must be string.");
-  if(!isInteger(format))
-    error("Argument 'format' must be integer.");
-  if(!isLogical(sourcepos))
-    error("Argument 'sourcepos' must be logical.");
-  if(!isLogical(hardbreaks))
-    error("Argument 'hardbreaks' must be logical.");
-  if(!isLogical(smart))
-    error("Argument 'smart' must be logical.");
-  if(!isLogical(normalize))
-    error("Argument 'normalize' must be logical.");
-  if(!isInteger(width))
-    error("Argument 'width' must be integer.");
+  if(!Rf_isString(text))
+    Rf_error("Argument 'text' must be string.");
+  if(!Rf_isInteger(format))
+    Rf_error("Argument 'format' must be integer.");
+  if(!Rf_isLogical(sourcepos))
+    Rf_error("Argument 'sourcepos' must be logical.");
+  if(!Rf_isLogical(hardbreaks))
+    Rf_error("Argument 'hardbreaks' must be logical.");
+  if(!Rf_isLogical(smart))
+    Rf_error("Argument 'smart' must be logical.");
+  if(!Rf_isLogical(normalize))
+    Rf_error("Argument 'normalize' must be logical.");
+  if(!Rf_isInteger(width))
+    Rf_error("Argument 'width' must be integer.");
 
   /* combine options */
   int options = CMARK_OPT_DEFAULT;
-  options += asLogical(sourcepos) * CMARK_OPT_SOURCEPOS;
-  options += asLogical(hardbreaks) * CMARK_OPT_HARDBREAKS;
-  options += asLogical(smart) * CMARK_OPT_SMART;
-  options += asLogical(normalize) * CMARK_OPT_NORMALIZE;
+  options += Rf_asLogical(sourcepos) * CMARK_OPT_SOURCEPOS;
+  options += Rf_asLogical(hardbreaks) * CMARK_OPT_HARDBREAKS;
+  options += Rf_asLogical(smart) * CMARK_OPT_SMART;
+  options += Rf_asLogical(normalize) * CMARK_OPT_NORMALIZE;
 
   /* parse input */
   SEXP input = STRING_ELT(text, 0);
@@ -79,11 +79,11 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   cmark_parser_free(parser);
 
   /* render output format */
-  char *output = print_document(doc, asInteger(format), options, asInteger(width));
+  char *output = print_document(doc, Rf_asInteger(format), options, Rf_asInteger(width));
   cmark_node_free(doc);
 
   /* cmark always returns UTF8 output */
-  SEXP res = PROTECT(allocVector(STRSXP, 1));
+  SEXP res = PROTECT(Rf_allocVector(STRSXP, 1));
   SET_STRING_ELT(res, 0, Rf_mkCharCE(output, CE_UTF8));
   UNPROTECT(1);
   free(output);

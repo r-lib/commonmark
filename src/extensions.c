@@ -10,11 +10,11 @@ SEXP R_list_extensions(){
   for(len = 0; tmp != NULL;len++){
     tmp = tmp->next;
   }
-  SEXP out = PROTECT(allocVector(STRSXP, len));
+  SEXP out = PROTECT(Rf_allocVector(STRSXP, len));
   int i = 0;
   for (tmp = syntax_extensions; tmp; tmp=tmp->next) {
     cmark_syntax_extension *ext = tmp->data;
-    SET_STRING_ELT(out, i, mkChar(ext->name));
+    SET_STRING_ELT(out, i, Rf_mkChar(ext->name));
     i++;
   }
   cmark_llist_free(mem, syntax_extensions);
