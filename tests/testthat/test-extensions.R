@@ -41,3 +41,9 @@ test_that("autolink", {
   expect_length(xml_find_all(doc2, "//link"), 1)
 
 })
+
+test_that("embedded images do not get filtered", {
+  md <- '<img src="data:image/png;base64,foobar" />\n'
+  expect_equal(md, markdown_html(md))
+  expect_equal(md, markdown_commonmark(md))
+})
