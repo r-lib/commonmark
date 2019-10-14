@@ -6,7 +6,7 @@ Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark"))
 URL: https://jeroen.cran.dev/commonmark (website)
-    http://github.com/jeroen/commonmark (devel) 
+    https://github.com/jeroen/commonmark (devel) 
     https://github.github.com/gfm/ (spec)
 BugReports: http://github.com/jeroen/commonmark/issues
 Description: The CommonMark specification defines a rationalized version of markdown
