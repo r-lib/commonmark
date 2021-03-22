@@ -1,4 +1,4 @@
-/** cmark binding for R by Jeroen Ooms (2016)
+/** cmark binding for R by Jeroen Ooms (2021)
  *  Adapted from CLI in main.c
  *  NOTE: man(3) states that cmark assumes UTF-8 for both input and output
  */

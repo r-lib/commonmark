@@ -11,23 +11,59 @@
 \alias{markdown_latex}
 \title{Parse and render markdown text}
 \usage{
-markdown_html(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  sourcepos = FALSE, extensions = FALSE)
+markdown_html(
+  text,
+  hardbreaks = FALSE,
+  smart = FALSE,
+  normalize = FALSE,
+  sourcepos = FALSE,
+  extensions = FALSE
+)
 
-markdown_xml(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  sourcepos = FALSE, extensions = FALSE)
+markdown_xml(
+  text,
+  hardbreaks = FALSE,
+  smart = FALSE,
+  normalize = FALSE,
+  sourcepos = FALSE,
+  extensions = FALSE
+)
 
-markdown_man(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  width = 0, extensions = FALSE)
+markdown_man(
+  text,
+  hardbreaks = FALSE,
+  smart = FALSE,
+  normalize = FALSE,
+  width = 0,
+  extensions = FALSE
+)
 
-markdown_commonmark(text, hardbreaks = FALSE, smart = FALSE,
-  normalize = FALSE, width = 0, extensions = FALSE)
+markdown_commonmark(
+  text,
+  hardbreaks = FALSE,
+  smart = FALSE,
+  normalize = FALSE,
+  width = 0,
+  extensions = FALSE
+)
 
-markdown_text(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  width = 0, extensions = FALSE)
+markdown_text(
+  text,
+  hardbreaks = FALSE,
+  smart = FALSE,
+  normalize = FALSE,
+  width = 0,
+  extensions = FALSE
+)
 
-markdown_latex(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE,
-  width = 0, extensions = FALSE)
+markdown_latex(
+  text,
+  hardbreaks = FALSE,
+  smart = FALSE,
+  normalize = FALSE,
+  width = 0,
+  extensions = FALSE
+)
 }
 \arguments{
 \item{text}{Markdown text}
@@ -47,17 +83,17 @@ vector with a subset of available \link{extensions}.}
 \item{width}{Specify wrap width (default 0 = nowrap).}
 }
 \description{
-Converts markdown text to several formats using John MacFarlane's \href{https://github.com/jgm/cmark}{cmark}
+Converts markdown text to several formats using John MacFarlane's \href{https://github.com/commonmark/cmark}{cmark}
 reference implementation. Supported output formats include \code{html}, \code{latex}, groff \code{man}, and normalized
 "commonmark" markdown. In addition the markdown parse tree can be returned in xml format.
 }
 \details{
 Support for extensions (including tables and autolink) is provided via the Github
-\href{https://github.com/github/cmark}{fork} of cmark. For now these are opt-in and have to be
+\href{https://github.com/github/cmark-gfm}{fork} of cmark. For now these are opt-in and have to be
 enabled with the \code{extensions} parameter. See also the manual page on \link{extensions}.
 
 When smart punctuation is enabled, straight double and single quotes will be rendered as curly quotes,
-depending on their position. Moreover \code{--} will be rendered as -- (en-dash), \code{---} will be
+depending on their position. Moreover \verb{--} will be rendered as -- (en-dash), \verb{---} will be
 rendered as --- (em-dash), and \code{...} will be rendered as ... (ellipses).
 }
 \examples{

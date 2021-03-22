@@ -15,7 +15,7 @@ features which are not (yet) in the official commonmark spec.
 Currently the following extensions are supported:
 \itemize{
 \item \strong{table} support rendering of tables
-\item \strong{strikethrough} via \code{~sometext~} syntax
+\item \strong{strikethrough} via \verb{~sometext~} syntax
 \item \strong{autolink} automatically turn URLs into hyperlinks
 \item \strong{tagfilter} blacklist html tags: \code{title} \code{textarea} \code{style} \code{xmp} \code{iframe}
 \code{noembed} \code{noframes} \code{script} \code{plaintext}.

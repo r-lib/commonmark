@@ -1,11 +1,11 @@
 #' Parse and render markdown text
 #'
-#' Converts markdown text to several formats using John MacFarlane's [cmark](https://github.com/jgm/cmark)
+#' Converts markdown text to several formats using John MacFarlane's [cmark](https://github.com/commonmark/cmark)
 #' reference implementation. Supported output formats include `html`, `latex`, groff `man`, and normalized
 #' "commonmark" markdown. In addition the markdown parse tree can be returned in xml format.
 #'
 #' Support for extensions (including tables and autolink) is provided via the Github
-#' [fork](https://github.com/github/cmark) of cmark. For now these are opt-in and have to be
+#' [fork](https://github.com/github/cmark-gfm) of cmark. For now these are opt-in and have to be
 #' enabled with the `extensions` parameter. See also the manual page on [extensions].
 #'
 #' When smart punctuation is enabled, straight double and single quotes will be rendered as curly quotes,
