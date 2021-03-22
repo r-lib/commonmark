@@ -2,9 +2,6 @@
 
 > High Performance CommonMark and Github Markdown Rendering in R
 
-[![Build Status](https://travis-ci.org/jeroen/commonmark.svg?branch=master)](https://travis-ci.org/jeroen/commonmark)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/commonmark?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/commonmark)
-[![Coverage Status](https://codecov.io/github/jeroen/commonmark/coverage.svg?branch=master)](https://codecov.io/github/jeroen/commonmark?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/commonmark)](http://cran.r-project.org/package=commonmark)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/commonmark)](http://cran.r-project.org/web/packages/commonmark/index.html)
 [![Github Stars](https://img.shields.io/github/stars/jeroen/commonmark.svg?style=social&label=Github)](https://github.com/jeroen/commonmark)
