@@ -322,9 +322,11 @@ static bufsize_t scan_to_closing_backticks(subject *subj,
 }
 
 // Destructively modify string, converting newlines to
-// spaces, then removing a single leading + trailing space.
+// spaces, then removing a single leading + trailing space,
+// unless the code span consists entirely of space characters.
 static void S_normalize_code(cmark_strbuf *s) {
   bufsize_t r, w;
+  bool contains_nonspace = false;
 
   for (r = 0, w = 0; r < s->size; ++r) {
     switch (s->ptr[r]) {
@@ -339,10 +341,14 @@ static void S_normalize_code(cmark_strbuf *s) {
     default:
       s->ptr[w++] = s->ptr[r];
     }
+    if (s->ptr[r] != ' ') {
+      contains_nonspace = true;
+    }
   }
 
   // begins and ends with space?
-  if (s->ptr[0] == ' ' && s->ptr[w - 1] == ' ') {
+  if (contains_nonspace &&
+      s->ptr[0] == ' ' && s->ptr[w - 1] == ' ') {
     cmark_strbuf_drop(s, 1);
     cmark_strbuf_truncate(s, w - 2);
   } else {
@@ -630,7 +636,6 @@ static void process_emphasis(cmark_parser *parser, subject *subj, delimiter *sta
   delimiter *opener;
   delimiter *old_closer;
   bool opener_found;
-  bool odd_match;
   delimiter *openers_bottom[3][128];
   int i;
 
@@ -655,15 +660,14 @@ static void process_emphasis(cmark_parser *parser, subject *subj, delimiter *sta
       // Now look backwards for first matching opener:
       opener = closer->previous;
       opener_found = false;
-      odd_match = false;
       while (opener != NULL && opener != stack_bottom &&
              opener != openers_bottom[closer->length % 3][closer->delim_char]) {
         if (opener->can_open && opener->delim_char == closer->delim_char) {
           // interior closer of size 2 can't match opener of size 1
           // or of size 1 can't match 2
-          odd_match = (closer->can_open || opener->can_close) &&
-                      ((opener->length + closer->length) % 3 == 0);
-          if (!odd_match) {
+          if (!(closer->can_open || opener->can_close) ||
+	      closer->length % 3 == 0 ||
+              (opener->length + closer->length) % 3 != 0) {
             opener_found = true;
             break;
           }
@@ -760,9 +764,10 @@ static delimiter *S_insert_emph(subject *subj, delimiter *opener,
   }
   cmark_node_insert_after(opener_inl, emph);
 
-  emph->start_line = emph->end_line = subj->line;
-  emph->start_column = opener_inl->start_column + subj->column_offset;
-  emph->end_column = closer_inl->end_column + subj->column_offset;
+  emph->start_line = opener_inl->start_line;
+  emph->end_line = closer_inl->end_line;
+  emph->start_column = opener_inl->start_column;
+  emph->end_column = closer_inl->end_column;
 
   // if opener has 0 characters, remove it and its associated inline
   if (opener_num_chars == 0) {
@@ -968,17 +973,21 @@ static bufsize_t manual_scan_link_url_2(cmark_chunk *input, bufsize_t offset,
     else if (input->data[i] == '(') {
       ++nb_p;
       ++i;
-        if (nb_p > 32)
-          return -1;
+      if (nb_p > 32)
+        return -1;
     } else if (input->data[i] == ')') {
       if (nb_p == 0)
         break;
       --nb_p;
       ++i;
-    } else if (cmark_isspace(input->data[i]))
+    } else if (cmark_isspace(input->data[i])) {
+      if (i == offset) {
+        return -1;
+      }
       break;
-    else
+    } else {
       ++i;
+    }
   }
 
   if (i >= input->len)
@@ -1004,7 +1013,7 @@ static bufsize_t manual_scan_link_url(cmark_chunk *input, bufsize_t offset,
       } else if (input->data[i] == '\\')
         i += 2;
       else if (input->data[i] == '\n' || input->data[i] == '<')
-        return manual_scan_link_url_2(input, offset, output);
+        return -1;
       else
         ++i;
     }
@@ -1128,19 +1137,77 @@ noMatch:
   // What if we're a footnote link?
   if (parser->options & CMARK_OPT_FOOTNOTES &&
       opener->inl_text->next &&
-      opener->inl_text->next->type == CMARK_NODE_TEXT &&
-      !opener->inl_text->next->next) {
+      opener->inl_text->next->type == CMARK_NODE_TEXT) {
+
     cmark_chunk *literal = &opener->inl_text->next->as.literal;
-    if (literal->len > 1 && literal->data[0] == '^') {
-      inl = make_simple(subj->mem, CMARK_NODE_FOOTNOTE_REFERENCE);
-      inl->as.literal = cmark_chunk_dup(literal, 1, literal->len - 1);
-      inl->start_line = inl->end_line = subj->line;
-      inl->start_column = opener->inl_text->start_column;
-      inl->end_column = subj->pos + subj->column_offset + subj->block_offset;
-      cmark_node_insert_before(opener->inl_text, inl);
-      cmark_node_free(opener->inl_text->next);
-      cmark_node_free(opener->inl_text);
+
+    // look back to the opening '[', and skip ahead to the next character
+    // if we're looking at a '[^' sequence, and there is other text or nodes
+    // after the ^, let's call it a footnote reference.
+    if ((literal->len > 0 && literal->data[0] == '^') && (literal->len > 1 || opener->inl_text->next->next)) {
+
+      // Before we got this far, the `handle_close_bracket` function may have
+      // advanced the current state beyond our footnote's actual closing
+      // bracket, ie if it went looking for a `link_label`.
+      // Let's just rewind the subject's position:
+      subj->pos = initial_pos;
+
+      cmark_node *fnref = make_simple(subj->mem, CMARK_NODE_FOOTNOTE_REFERENCE);
+
+      // the start and end of the footnote ref is the opening and closing brace
+      // i.e. the subject's current position, and the opener's start_column
+      int fnref_end_column = subj->pos + subj->column_offset + subj->block_offset;
+      int fnref_start_column = opener->inl_text->start_column;
+
+      // any given node delineates a substring of the line being processed,
+      // with the remainder of the line being pointed to thru its 'literal'
+      // struct member.
+      // here, we copy the literal's pointer, moving it past the '^' character
+      // for a length equal to the size of footnote reference text.
+      // i.e. end_col minus start_col, minus the [ and the ^ characters
+      //
+      // this copies the footnote reference string, even if between the
+      // `opener` and the subject's current position there are other nodes
+      //
+      // (first, check for underflows)
+      if ((fnref_start_column + 2) <= fnref_end_column) {
+        fnref->as.literal = cmark_chunk_dup(literal, 1, (fnref_end_column - fnref_start_column) - 2);
+      } else {
+        fnref->as.literal = cmark_chunk_dup(literal, 1, 0);
+      }
+
+      fnref->start_line = fnref->end_line = subj->line;
+      fnref->start_column = fnref_start_column;
+      fnref->end_column = fnref_end_column;
+
+      // we then replace the opener with this new fnref node, the net effect
+      // being replacing the opening '[' text node with a `^footnote-ref]` node.
+      cmark_node_insert_before(opener->inl_text, fnref);
+
       process_emphasis(parser, subj, opener->previous_delimiter);
+      // sometimes, the footnote reference text gets parsed into multiple nodes
+      // i.e. '[^example]' parsed into '[', '^exam', 'ple]'.
+      // this happens for ex with the autolink extension. when the autolinker
+      // finds the 'w' character, it will split the text into multiple nodes
+      // in hopes of being able to match a 'www.' substring.
+      //
+      // because this function is called one character at a time via the
+      // `parse_inlines` function, and the current subj->pos is pointing at the
+      // closing ] brace, and because we copy all the text between the [ ]
+      // braces, we should be able to safely ignore and delete any nodes after
+      // the opener->inl_text->next.
+      //
+      // therefore, here we walk thru the list and free them all up
+      cmark_node *next_node;
+      cmark_node *current_node = opener->inl_text->next;
+      while(current_node) {
+        next_node = current_node->next;
+        cmark_node_free(current_node);
+        current_node = next_node;
+      }
+
+      cmark_node_free(opener->inl_text);
+
       pop_bracket(subj);
       return NULL;
     }
@@ -1431,8 +1498,7 @@ bufsize_t cmark_parse_reference_inline(cmark_mem *mem, cmark_chunk *input,
 
   // parse link url:
   spnl(&subj);
-  if ((matchlen = manual_scan_link_url(&subj.input, subj.pos, &url)) > -1 &&
-      url.len > 0) {
+  if ((matchlen = manual_scan_link_url(&subj.input, subj.pos, &url)) > -1) {
     subj.pos += matchlen;
   } else {
     return 0;

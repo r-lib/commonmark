@@ -1,12 +1,13 @@
 Package: commonmark
 Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
-Version: 1.7
+Version: 1.8.0
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-4035-0289")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark"))
-URL: https://github.com/r-lib/commonmark (devel)
+URL: https://docs.ropensci.org/commonmark (docs)
+    https://github.com/r-lib/commonmark (devel)
     https://github.github.com/gfm/ (spec)
 BugReports: https://github.com/r-lib/commonmark/issues
 Description: The CommonMark specification defines a rationalized version of markdown
@@ -19,7 +20,7 @@ Suggests:
     curl,
     testthat,
     xml2
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Language: en-US
 Encoding: UTF-8

@@ -1,7 +1,7 @@
 context("test-extensions")
 
 test_that("list extensions", {
-  expect_equal(list_extensions(), c("table", "strikethrough", "autolink", "tagfilter"))
+  expect_equal(list_extensions(), c("table", "strikethrough", "autolink", "tagfilter", "tasklist"))
 })
 
 test_that("strikethrough", {
