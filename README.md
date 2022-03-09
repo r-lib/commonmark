@@ -100,8 +100,9 @@ Commonmark includes several 'extensions' to enable features which are not (yet) 
  - __strikethough__ via `~sometext~` syntax
  - __autolink__ automatically turn URLs into hyperlinks
  - __tagfilter__ blacklist html tags: `title` `textarea` `style` `xmp` `iframe` `noembed` `noframes` `script` `plaintext`.
+ - __tasklist__ turns certain list items into checkboxes
  
-These extensions were added by Github to support GitHub Flavored Markdown.
+These extensions were added by Github to support [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
 
 ```r
