@@ -6,7 +6,7 @@ Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-4035-0289")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark"))
-URL: https://docs.ropensci.org/commonmark (docs)
+URL: https://docs.ropensci.org/commonmark/ (docs)
     https://github.com/r-lib/commonmark (devel)
     https://github.github.com/gfm/ (spec)
 BugReports: https://github.com/r-lib/commonmark/issues

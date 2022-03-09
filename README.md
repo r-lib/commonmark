@@ -14,7 +14,7 @@ and strikethrough text.
 
 ## Documentation
 
- - [commonmark R package](https://docs.ropensci.org/commonmark)
+ - [commonmark R package](https://docs.ropensci.org/commonmark/)
  - [CommonMark specification for Markdown text](https://commonmark.org/help/)
 
 ## Basic Markdown
