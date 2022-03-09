@@ -19,7 +19,7 @@ Suggests:
     curl,
     testthat,
     xml2
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Language: en-US
 Encoding: UTF-8
