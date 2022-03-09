@@ -1,3 +1,6 @@
+1.8.0
+ - Update libcmark-gfm to 0.29.0.gfm.3
+
 1.7
  - Update libcmark-gfm to 0.28.3.gfm.19
  - Hide internal symbols, fixes crash on rstudio in centos (#12)
