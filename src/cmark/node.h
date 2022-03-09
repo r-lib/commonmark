@@ -21,6 +21,7 @@ typedef struct {
   cmark_delim_type delimiter;
   unsigned char bullet_char;
   bool tight;
+  bool checked; // For task list extension
 } cmark_list;
 
 typedef struct {
@@ -50,6 +51,7 @@ typedef struct {
 enum cmark_node__internal_flags {
   CMARK_NODE__OPEN = (1 << 0),
   CMARK_NODE__LAST_LINE_BLANK = (1 << 1),
+  CMARK_NODE__LAST_LINE_CHECKED = (1 << 2),
 };
 
 struct cmark_node {
@@ -73,6 +75,13 @@ struct cmark_node {
   uint16_t flags;
 
   cmark_syntax_extension *extension;
+
+  union {
+    int ref_ix;
+    int def_count;
+  } footnote;
+
+  cmark_node *parent_footnote_def;
 
   union {
     cmark_chunk literal;
