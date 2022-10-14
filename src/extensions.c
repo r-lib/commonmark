@@ -2,7 +2,7 @@
 #include "syntax_extension.h"
 #include "registry.h"
 
-SEXP R_list_extensions(){
+SEXP R_list_extensions(void){
   cmark_mem *mem = cmark_get_default_mem_allocator();
   cmark_llist *syntax_extensions = cmark_list_syntax_extensions(mem);
   cmark_llist *tmp = syntax_extensions;

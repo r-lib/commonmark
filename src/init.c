@@ -3,7 +3,7 @@
 #include <R_ext/Visibility.h>
 #include "extensions/cmark-gfm-core-extensions.h"
 
-extern SEXP R_list_extensions();
+extern SEXP R_list_extensions(void);
 extern SEXP R_render_markdown(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
