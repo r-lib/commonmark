@@ -1,3 +1,7 @@
+1.8.1
+ - Update libcmark-gfm to 0.29.0.gfm.6
+ - Fix strict-prototypes warnings
+
 1.8.0
  - Update libcmark-gfm to 0.29.0.gfm.3
 
