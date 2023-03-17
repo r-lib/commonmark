@@ -40,7 +40,8 @@ static char* print_document(cmark_node *document, writer_format writer, int opti
   }
 }
 
-SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart, SEXP normalize, SEXP width, SEXP extensions) {
+SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, SEXP smart,
+                       SEXP normalize, SEXP footnotes, SEXP width, SEXP extensions) {
 
   /* input validation */
   if(!Rf_isString(text))
@@ -55,6 +56,8 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
     Rf_error("Argument 'smart' must be logical.");
   if(!Rf_isLogical(normalize))
     Rf_error("Argument 'normalize' must be logical.");
+  if(!Rf_isLogical(footnotes))
+    Rf_error("Argument 'footnotes' must be logical.");
   if(!Rf_isInteger(width))
     Rf_error("Argument 'width' must be integer.");
 
@@ -64,6 +67,7 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   options += Rf_asLogical(hardbreaks) * CMARK_OPT_HARDBREAKS;
   options += Rf_asLogical(smart) * CMARK_OPT_SMART;
   options += Rf_asLogical(normalize) * CMARK_OPT_NORMALIZE;
+  options += Rf_asLogical(footnotes) * CMARK_OPT_FOOTNOTES;
 
   /* Prevent filtering embedded resources: https://github.com/github/cmark-gfm#security */
   options += CMARK_OPT_UNSAFE;

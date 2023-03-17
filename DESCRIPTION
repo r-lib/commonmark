@@ -1,7 +1,7 @@
 Package: commonmark
 Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
-Version: 1.8.1
+Version: 1.9.0
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-4035-0289")),
@@ -20,7 +20,7 @@ Suggests:
     curl,
     testthat,
     xml2
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Language: en-US
 Encoding: UTF-8

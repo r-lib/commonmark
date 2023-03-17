@@ -17,6 +17,7 @@ markdown_html(
   smart = FALSE,
   normalize = FALSE,
   sourcepos = FALSE,
+  footnotes = FALSE,
   extensions = FALSE
 )
 
@@ -26,6 +27,7 @@ markdown_xml(
   smart = FALSE,
   normalize = FALSE,
   sourcepos = FALSE,
+  footnotes = FALSE,
   extensions = FALSE
 )
 
@@ -34,6 +36,7 @@ markdown_man(
   hardbreaks = FALSE,
   smart = FALSE,
   normalize = FALSE,
+  footnotes = FALSE,
   width = 0,
   extensions = FALSE
 )
@@ -43,6 +46,7 @@ markdown_commonmark(
   hardbreaks = FALSE,
   smart = FALSE,
   normalize = FALSE,
+  footnotes = FALSE,
   width = 0,
   extensions = FALSE
 )
@@ -52,6 +56,7 @@ markdown_text(
   hardbreaks = FALSE,
   smart = FALSE,
   normalize = FALSE,
+  footnotes = FALSE,
   width = 0,
   extensions = FALSE
 )
@@ -61,6 +66,7 @@ markdown_latex(
   hardbreaks = FALSE,
   smart = FALSE,
   normalize = FALSE,
+  footnotes = FALSE,
   width = 0,
   extensions = FALSE
 )
@@ -76,6 +82,8 @@ regardless of the value given with \code{width}.}
 \item{normalize}{Consolidate adjacent text nodes.}
 
 \item{sourcepos}{Include source position attribute in output.}
+
+\item{footnotes}{parse footnotes}
 
 \item{extensions}{Enables Github extensions. Can be \code{TRUE} (all) \code{FALSE} (none) or a character
 vector with a subset of available \link{extensions}.}

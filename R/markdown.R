@@ -23,6 +23,7 @@
 #' regardless of the value given with `width`.
 #' @param smart Use smart punctuation. See details.
 #' @param normalize Consolidate adjacent text nodes.
+#' @param footnotes parse footnotes
 #' @param extensions Enables Github extensions. Can be `TRUE` (all) `FALSE` (none) or a character
 #' vector with a subset of available [extensions].
 #' @param width Specify wrap width (default 0 = nowrap).
@@ -33,48 +34,48 @@
 #' tex <- markdown_latex(md)
 #' cm <- markdown_commonmark(md)
 #' text <- markdown_text(md)
-markdown_html <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE, extensions = FALSE){
+markdown_html <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE, footnotes = FALSE, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 1L, sourcepos, hardbreaks, smart, normalize, 0L, extensions)
+  .Call(R_render_markdown, text, 1L, sourcepos, hardbreaks, smart, normalize, footnotes, 0L, extensions)
 }
 
 #' @export
 #' @rdname commonmark
-markdown_xml <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE, extensions = FALSE){
+markdown_xml <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE, footnotes = FALSE, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 2L, sourcepos, hardbreaks, smart, normalize, 0L, extensions)
+  .Call(R_render_markdown, text, 2L, sourcepos, hardbreaks, smart, normalize, footnotes, 0L, extensions)
 }
 
 #' @export
 #' @rdname commonmark
-markdown_man <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0, extensions = FALSE){
+markdown_man <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, footnotes = FALSE, width = 0, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 3L, FALSE, hardbreaks, smart, normalize, as.integer(width), extensions)
+  .Call(R_render_markdown, text, 3L, FALSE, hardbreaks, smart, normalize, footnotes, as.integer(width), extensions)
 }
 
 #' @export
 #' @rdname commonmark
-markdown_commonmark <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0, extensions = FALSE){
+markdown_commonmark <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, footnotes = FALSE, width = 0, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 4L, FALSE, hardbreaks, smart, normalize, as.integer(width), extensions)
+  .Call(R_render_markdown, text, 4L, FALSE, hardbreaks, smart, normalize, footnotes, as.integer(width), extensions)
 }
 
 #' @export
 #' @rdname commonmark
-markdown_text <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0, extensions = FALSE){
+markdown_text <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, footnotes = FALSE, width = 0, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 5L, FALSE, hardbreaks, smart, normalize, as.integer(width), extensions)
+  .Call(R_render_markdown, text, 5L, FALSE, hardbreaks, smart, normalize, footnotes, as.integer(width), extensions)
 }
 
 #' @export
 #' @rdname commonmark
-markdown_latex <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, width = 0, extensions = FALSE){
+markdown_latex <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, footnotes = FALSE, width = 0, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 6L, FALSE, hardbreaks, smart, normalize, as.integer(width), extensions)
+  .Call(R_render_markdown, text, 6L, FALSE, hardbreaks, smart, normalize, footnotes, as.integer(width), extensions)
 }
