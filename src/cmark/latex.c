@@ -15,8 +15,18 @@
 #define OUT(s, wrap, escaping) renderer->out(renderer, node, s, wrap, escaping)
 #define LIT(s) renderer->out(renderer, node, s, false, LITERAL)
 #define CR() renderer->cr(renderer)
-#define BLANKLINE() renderer->blankline(renderer)
+#define BLANKLINE() latex_out_sourcepos(node, renderer, options); renderer->blankline(renderer)
 #define LIST_NUMBER_STRING_SIZE 20
+
+static CMARK_INLINE void latex_out_sourcepos(cmark_node *node, cmark_renderer *renderer, int options){
+  char buffer[100];
+  if (CMARK_OPT_SOURCEPOS & options) {
+    snprintf(buffer, 100, " %%sourcepos(%d:%d-%d:%d)",
+             cmark_node_get_start_line(node), cmark_node_get_start_column(node),
+             cmark_node_get_end_line(node), cmark_node_get_end_column(node));
+    renderer->out(renderer, node, buffer, false, LITERAL);
+  }
+}
 
 static CMARK_INLINE void outc(cmark_renderer *renderer, cmark_node *node,
                               cmark_escaping escape,
