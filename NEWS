@@ -1,3 +1,6 @@
+1.9.2
+  - Update libcmark-gfm to 0.29.0.gfm.13
+
 1.9.0
  - Add parameter 'footnotes' to enable footnote parsing
  - Update libcmark-gfm to 0.29.0.gfm.9
