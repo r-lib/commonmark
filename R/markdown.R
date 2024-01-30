@@ -74,8 +74,8 @@ markdown_text <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = F
 
 #' @export
 #' @rdname commonmark
-markdown_latex <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, footnotes = FALSE, width = 0, extensions = FALSE){
+markdown_latex <- function(text, hardbreaks = FALSE, smart = FALSE, normalize = FALSE, sourcepos = FALSE, footnotes = FALSE, width = 0, extensions = FALSE){
   text <- enc2utf8(paste(text, collapse="\n"))
   extensions <- get_extensions(extensions)
-  .Call(R_render_markdown, text, 6L, FALSE, hardbreaks, smart, normalize, footnotes, as.integer(width), extensions)
+  .Call(R_render_markdown, text, 6L, sourcepos, hardbreaks, smart, normalize, footnotes, as.integer(width), extensions)
 }
