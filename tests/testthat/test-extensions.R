@@ -5,14 +5,14 @@ test_that("list extensions", {
 })
 
 test_that("strikethrough", {
-  md <- "foo ~bar~ baz"
-  expect_equal(markdown_html(md, extensions = FALSE), "<p>foo ~bar~ baz</p>\n")
+  md <- "foo ~~bar~~ baz"
+  expect_equal(markdown_html(md, extensions = FALSE), "<p>foo ~~bar~~ baz</p>\n")
   expect_equal(markdown_html(md, extensions = TRUE), "<p>foo <del>bar</del> baz</p>\n")
 
-  expect_equal(markdown_latex(md, extensions = FALSE), "foo \\textasciitilde{}bar\\textasciitilde{} baz\n")
+  expect_equal(markdown_latex(md, extensions = FALSE), "foo \\textasciitilde{}\\textasciitilde{}bar\\textasciitilde{}\\textasciitilde{} baz\n")
   expect_equal(markdown_latex(md, extensions = TRUE), "foo \\sout{bar} baz\n")
 
-  expect_equal(markdown_man(md, extensions = FALSE), ".PP\nfoo ~bar~ baz\n")
+  expect_equal(markdown_man(md, extensions = FALSE), ".PP\nfoo ~~bar~~ baz\n")
   expect_equal(markdown_man(md, extensions = TRUE), ".PP\nfoo \n.ST \"bar\"\n baz\n")
 
   library(xml2)
