@@ -71,6 +71,10 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
 
   /* Prevent filtering embedded resources: https://github.com/github/cmark-gfm#security */
   options += CMARK_OPT_UNSAFE;
+  /* Only process double tildes as strikethrough, otherwise, leave them asis 
+   * https://github.com/r-lib/commonmark/issues/25
+   * */
+  options += CMARK_OPT_STRIKETHROUGH_DOUBLE_TILDE;
 
   /* parse input */
   SEXP input = STRING_ELT(text, 0);

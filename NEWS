@@ -1,3 +1,6 @@
+1.9.2
+  - Prevent single-tildes from being parsed as strikethrough (#25)
+
 1.9.1
   - Update libcmark-gfm to 0.29.0.gfm.13
 
