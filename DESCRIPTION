@@ -3,7 +3,7 @@ Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
 Version: 1.9.1
 Authors@R: c(
-    person("Jeroen", "Ooms", ,"jeroen@berkeley.edu", role = c("aut", "cre"),
+    person("Jeroen", "Ooms", ,"jeroenooms@gmail.com", role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-4035-0289")),
     person("John MacFarlane", role = "cph", comment = "Author of cmark"))
 URL: https://docs.ropensci.org/commonmark/
