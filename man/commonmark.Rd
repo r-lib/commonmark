@@ -66,6 +66,7 @@ markdown_latex(
   hardbreaks = FALSE,
   smart = FALSE,
   normalize = FALSE,
+  sourcepos = FALSE,
   footnotes = FALSE,
   width = 0,
   extensions = FALSE
