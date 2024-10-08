@@ -1,3 +1,6 @@
+1.9.3
+  - Apply upstream PR https://github.com/github/cmark-gfm/pull/362
+
 1.9.1
   - Update libcmark-gfm to 0.29.0.gfm.13
 
