@@ -63,6 +63,7 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
 
   /* combine options */
   int options = CMARK_OPT_DEFAULT;
+  options += CMARK_OPT_STRIKETHROUGH_DOUBLE_TILDE;
   options += Rf_asLogical(sourcepos) * CMARK_OPT_SOURCEPOS;
   options += Rf_asLogical(hardbreaks) * CMARK_OPT_HARDBREAKS;
   options += Rf_asLogical(smart) * CMARK_OPT_SMART;
