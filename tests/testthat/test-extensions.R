@@ -42,6 +42,18 @@ test_that("autolink", {
 
 })
 
+test_that("footnotes", {
+  # a single footnote
+  md <- "Hello[^1]\n\n[^1]: A footnote."
+  expect_equal(markdown_latex(md, footnotes = FALSE), "Hello{[}\\^{}1{]}\n\n{[}\\^{}1{]}: A footnote.\n")
+  expect_equal(markdown_latex(md, footnotes = TRUE), "Hello\\footnotemark[1]\n\n\\footnotetext[1]{A footnote.\n\n}\n")
+
+  # multiple footnotes
+  md <- "Hello[^1] World[^foo-2]\n\n[^1]: A footnote.\n\n[^foo-2]: Footnote ID does not have to be a number."
+  expect_equal(markdown_latex(md, footnotes = FALSE), "Hello{[}\\^{}1{]} World{[}\\^{}foo-2{]}\n\n{[}\\^{}1{]}: A footnote.\n\n{[}\\^{}foo-2{]}: Footnote ID does not have to be a number.\n")
+  expect_equal(markdown_latex(md, footnotes = TRUE), "Hello\\footnotemark[1] World\\footnotemark[foo-2]\n\n\\footnotetext[1]{A footnote.\n\n}\\footnotetext[foo-2]{Footnote ID does not have to be a number.\n\n}\n")
+})
+
 test_that("embedded images do not get filtered", {
   md <- '<img src="data:image/png;base64,foobar" />\n'
   expect_equal(md, markdown_html(md))

@@ -1,5 +1,6 @@
-1.9.3
+1.9.4
   - Apply upstream PR https://github.com/github/cmark-gfm/pull/362
+  - Implement LaTeX footnotes (#32)
 
 1.9.1
   - Update libcmark-gfm to 0.29.0.gfm.13
