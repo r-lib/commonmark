@@ -6,7 +6,7 @@
 #' Currently the following extensions are supported:
 #'
 #'  - **table** support rendering of tables: [gfm-spec section 4.10](https://github.github.com/gfm/#tables-extension-)
-#'  - **strikethrough** via `~sometext~` syntax: [gfm-spec section 6.5](https://github.github.com/gfm/#strikethrough-extension-)
+#'  - **strikethrough** via `~~sometext~~` syntax: [gfm-spec section 6.5](https://github.github.com/gfm/#strikethrough-extension-)
 #'  - **autolink** automatically turn URLs into hyperlinks: [gfm-spec section 6.9](https://github.github.com/gfm/#autolinks-extension-)
 #'  - **tagfilter** blacklist html tags: `title` `textarea` `style` `xmp` `iframe`
 #' `noembed` `noframes` `script` `plaintext`: [gfm-spec section 6.11](https://github.github.com/gfm/#disallowed-raw-html-extension-)

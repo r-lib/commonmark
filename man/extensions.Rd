@@ -15,7 +15,7 @@ features which are not (yet) in the official commonmark spec.
 Currently the following extensions are supported:
 \itemize{
 \item \strong{table} support rendering of tables: \href{https://github.github.com/gfm/#tables-extension-}{gfm-spec section 4.10}
-\item \strong{strikethrough} via \verb{~sometext~} syntax: \href{https://github.github.com/gfm/#strikethrough-extension-}{gfm-spec section 6.5}
+\item \strong{strikethrough} via \verb{~~sometext~~} syntax: \href{https://github.github.com/gfm/#strikethrough-extension-}{gfm-spec section 6.5}
 \item \strong{autolink} automatically turn URLs into hyperlinks: \href{https://github.github.com/gfm/#autolinks-extension-}{gfm-spec section 6.9}
 \item \strong{tagfilter} blacklist html tags: \code{title} \code{textarea} \code{style} \code{xmp} \code{iframe}
 \code{noembed} \code{noframes} \code{script} \code{plaintext}: \href{https://github.github.com/gfm/#disallowed-raw-html-extension-}{gfm-spec section 6.11}
