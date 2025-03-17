@@ -23,5 +23,5 @@ $(SHLIB): $(STATLIB)
 $(STATLIB): $(LIBCMARK)
 	$(AR) rcs $(STATLIB) $(LIBCMARK)
 
-cleanup:
+cleanup: $(SHLIB)
 	rm -f $(LIBCMARK) $(STATLIB)
