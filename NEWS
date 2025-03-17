@@ -1,3 +1,6 @@
+1.9.5
+  - Fix parallel make problem
+
 1.9.4
   - Apply upstream PR https://github.com/github/cmark-gfm/pull/362
   - Require double-tilde `~~` for the strikethrough extension, for consistency with Pandoc's Markdown
