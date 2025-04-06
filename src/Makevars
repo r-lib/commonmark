@@ -21,7 +21,10 @@ all: $(SHLIB) cleanup
 $(SHLIB): $(STATLIB)
 
 $(STATLIB): $(LIBCMARK)
-	$(AR) rcs $(STATLIB) $(LIBCMARK)
 
 cleanup: $(SHLIB)
 	@rm -f $(LIBCMARK) $(STATLIB)
+
+# On Windows this rule is masked by Makeconf in base R
+%.a:
+	@$(AR) crs $@ $^ && $(STRIP_STATIC_LIB) $@ || true
