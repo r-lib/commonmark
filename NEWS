@@ -1,6 +1,7 @@
 2.0.0
   - The tagfilter extension for markdown_html now actually works (#15)
   - Backport patch to filter illegal control characters in markdown_xml()
+  - Implement LaTeX footnotes (#32)
 
 1.9.5
   - Fix parallel make problem
