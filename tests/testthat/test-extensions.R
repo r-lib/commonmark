@@ -1,7 +1,7 @@
 context("test-extensions")
 
 test_that("list extensions", {
-  expect_equal(list_extensions(), c("table", "strikethrough", "autolink", "tagfilter", "tasklist"))
+  expect_setequal(list_extensions(), c("table", "strikethrough", "subscript", "autolink", "tagfilter", "tasklist"))
 })
 
 test_that("strikethrough", {
@@ -22,6 +22,26 @@ test_that("strikethrough", {
   expect_length(xml_find_all(doc2, "//strikethrough"), 1)
 
 })
+
+test_that("subscript", {
+  md <- "H~2~O"
+  expect_equal(markdown_html(md), "<p>H~2~O</p>\n")
+  expect_equal(markdown_html(md, extensions = "subscript"), "<p>H<sub>2</sub>O</p>\n")
+
+  expect_equal(markdown_latex(md), "H\\textasciitilde{}2\\textasciitilde{}O\n")
+  expect_equal(markdown_latex(md, extensions = "subscript"), "H\\textsubscript{2}O\n")
+
+  expect_equal(markdown_man(md), ".PP\nH~2~O\n")
+  expect_equal(markdown_man(md, extensions = "subscript"), ".PP\nH\n\\d\\s-22\\s+2\\u\nO\n")
+
+  library(xml2)
+  doc1 <- xml_ns_strip(read_xml(markdown_xml(md)))
+  doc2 <- xml_ns_strip(read_xml(markdown_xml(md, extensions = "subscript")))
+  expect_length(xml_find_all(doc1, "//subscript"), 0)
+  expect_length(xml_find_all(doc2, "//subscript"), 1)
+
+})
+
 
 test_that("autolink", {
   md <- "Visit: https://www.test.com"
