@@ -1,7 +1,7 @@
 Package: commonmark
 Type: Package
 Title: High Performance CommonMark and Github Markdown Rendering in R
-Version: 1.9.5
+Version: 2.0.0
 Authors@R: c(
     person("Jeroen", "Ooms", ,"jeroenooms@gmail.com", role = c("aut", "cre"),
         comment = c(ORCID = "0000-0002-4035-0289")),
