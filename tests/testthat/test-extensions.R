@@ -42,6 +42,12 @@ test_that("autolink", {
 
 })
 
+test_that('tagefilter', {
+  input <- "<title><style></style></title>\n"
+  expect_equal(input, markdown_html(input))
+  expect_equal(markdown_html(input, extensions = "tagfilter"), gsub("<", '&lt;', input))
+})
+
 test_that("embedded images do not get filtered", {
   md <- '<img src="data:image/png;base64,foobar" />\n'
   expect_equal(md, markdown_html(md))
