@@ -2,8 +2,8 @@
 
 > High Performance CommonMark and Github Markdown Rendering in R
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/commonmark)](https://cran.r-project.org/package=commonmark)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/commonmark)](https://cran.r-project.org/package=commonmark)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/commonmark)](https://cran.r-project.org/package=commonmark)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/commonmark)](https://cran.r-project.org/package=commonmark)
 
 The CommonMark specification defines a rationalized version of markdown
 syntax. This package uses the 'cmark' reference implementation for converting
