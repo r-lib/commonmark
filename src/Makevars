@@ -16,12 +16,15 @@ PKG_LIBS = -Lcmark -lstatcmark
 STATLIB = cmark/libstatcmark.a
 
 # For development only
-all: clean
+all: $(SHLIB) cleanup
 
 $(SHLIB): $(STATLIB)
 
 $(STATLIB): $(LIBCMARK)
-	$(AR) rcs $(STATLIB) $(LIBCMARK)
 
-clean:
-	rm -f $(LIBCMARK) $(OBJECTS) $(SHLIB) $(STATLIB)
+cleanup: $(SHLIB)
+	@rm -f $(LIBCMARK) $(STATLIB)
+
+# On Windows this rule is masked by Makeconf in base R
+%.a:
+	@$(AR) crs $@ $^

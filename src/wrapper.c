@@ -5,11 +5,9 @@
 
 #include <Rinternals.h>
 #include <stdlib.h>
-#include "cmark-gfm.h"
 
 /* Github extensions */
-#include "extensions/cmark-gfm-core-extensions.h"
-#include "registry.h"
+#include "parser.h"
 
 typedef enum {
   FORMAT_NONE,
@@ -21,10 +19,10 @@ typedef enum {
   FORMAT_LATEX
 } writer_format;
 
-static char* print_document(cmark_node *document, writer_format writer, int options, int width){
+static char* print_document(cmark_node *document, cmark_parser *parser, writer_format writer, int options, int width){
   switch (writer) {
   case FORMAT_HTML:
-    return cmark_render_html(document, options, NULL);
+    return cmark_render_html(document, options, parser->syntax_extensions);
   case FORMAT_XML:
     return cmark_render_xml(document, options);
   case FORMAT_MAN:
@@ -85,10 +83,10 @@ SEXP R_render_markdown(SEXP text, SEXP format, SEXP sourcepos, SEXP hardbreaks, 
   }
   cmark_parser_feed(parser, CHAR(input), LENGTH(input));
   cmark_node *doc = cmark_parser_finish(parser);
-  cmark_parser_free(parser);
 
   /* render output format */
-  char *output = print_document(doc, Rf_asInteger(format), options, Rf_asInteger(width));
+  char *output = print_document(doc, parser, Rf_asInteger(format), options, Rf_asInteger(width));
+  cmark_parser_free(parser);
   cmark_node_free(doc);
 
   /* cmark always returns UTF8 output */

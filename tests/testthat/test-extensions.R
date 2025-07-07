@@ -42,6 +42,7 @@ test_that("autolink", {
 
 })
 
+
 test_that("footnotes", {
   # a single footnote
   md <- "Hello[^1]\n\n[^1]: A footnote."
@@ -52,6 +53,13 @@ test_that("footnotes", {
   md <- "Hello[^1] World[^foo-2]\n\n[^1]: A footnote.\n\n[^foo-2]: Footnote ID does not have to be a number."
   expect_equal(markdown_latex(md, footnotes = FALSE), "Hello{[}\\^{}1{]} World{[}\\^{}foo-2{]}\n\n{[}\\^{}1{]}: A footnote.\n\n{[}\\^{}foo-2{]}: Footnote ID does not have to be a number.\n")
   expect_equal(markdown_latex(md, footnotes = TRUE), "Hello\\footnotemark[1] World\\footnotemark[foo-2]\n\n\\footnotetext[1]{A footnote.\n\n}\\footnotetext[foo-2]{Footnote ID does not have to be a number.\n\n}\n")
+})
+
+
+test_that('tagefilter', {
+  input <- "<title><style></style></title>\n"
+  expect_equal(input, markdown_html(input))
+  expect_equal(markdown_html(input, extensions = "tagfilter"), gsub("<", '&lt;', input))
 })
 
 test_that("embedded images do not get filtered", {
